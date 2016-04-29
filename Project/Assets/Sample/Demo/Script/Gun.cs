@@ -29,6 +29,7 @@ public class Gun : MonoBehaviour
 		tf.localScale = Vector3.one;
 		tf.localPosition = Vector3.zero;
 		tf.localEulerAngles = Vector3.zero;
+		tf.parent = Manager.main.bulletLayer;
 		m_lastFireTime = Time.time;
 		return result;
 	}

@@ -5,9 +5,8 @@ public class SimpleMotion : MonoBehaviour
 {
 	public Vector3 dir = Vector3.forward;
 	public float speed = 8;
-	public float time = 1f;
-	void Start()
+	void Update()
 	{
-		iTween.MoveAdd (gameObject, dir * speed * time, time);
+		transform.position += transform.forward * speed *Time.deltaTime;
 	}
 }
