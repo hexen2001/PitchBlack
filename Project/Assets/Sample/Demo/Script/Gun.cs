@@ -4,6 +4,15 @@ using System.Collections;
 public class Gun : MonoBehaviour
 {
 	public GameObject bulletPrefab;
+	public bool debugFire = false;
+	void Update()
+	{
+		if (debugFire)
+		{
+			debugFire = !debugFire;
+			Fire ();
+		}
+	}
 	public GameObject Fire()
 	{
 		var result = Object.Instantiate (bulletPrefab) as GameObject;

@@ -3,6 +3,16 @@ using System.Collections.Generic;
 
 public class TurretVision : MonoBehaviour
 {
+	public GameObject first
+	{
+		get{
+			if (target.Count > 0)
+			{
+				return target [0];
+			}
+			return null;
+		}
+	}
 	public List<GameObject> target = new List<GameObject>();
 	void OnTriggerEnter(Collider collider)
 	{
@@ -15,7 +25,8 @@ public class TurretVision : MonoBehaviour
 	private SphereCollider m_sphereCollider;
 	private SphereCollider sphereCollider
 	{
-		get{
+		get
+		{
 			if (null == m_sphereCollider)
 			{
 				m_sphereCollider = GetComponent<SphereCollider> ();
