@@ -12,4 +12,23 @@ public class TurretVision : MonoBehaviour
 	{
 		target.Remove (collider.gameObject);
 	}
+	private SphereCollider m_sphereCollider;
+	private SphereCollider sphereCollider
+	{
+		get{
+			if (null == m_sphereCollider)
+			{
+				m_sphereCollider = GetComponent<SphereCollider> ();
+			}
+			return m_sphereCollider;
+		}
+	}
+	void OnDrawGizmos()
+	{
+		Gizmos.color = new Color(0,0,1, 0.25f);
+		Gizmos.matrix = transform.localToWorldMatrix;
+		Gizmos.DrawWireSphere (Vector3.zero, sphereCollider.radius);
+		Gizmos.color = Color.red;
+		Gizmos.DrawLine (Vector3.zero, Vector3.forward * sphereCollider.radius);
+	}
 }
