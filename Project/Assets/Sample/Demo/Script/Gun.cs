@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Gun : MonoBehaviour
 {
+	public float cooldown = 0.3f;
+	private float m_lastFireTime;
 	public GameObject bulletPrefab;
 	public bool debugFire = false;
 	void Update()
@@ -13,6 +15,12 @@ public class Gun : MonoBehaviour
 			Fire ();
 		}
 	}
+	public bool IsCooldown
+	{
+		get{
+			return ( m_lastFireTime + cooldown ) < Time.time;
+		}
+	}
 	public GameObject Fire()
 	{
 		var result = Object.Instantiate (bulletPrefab) as GameObject;
@@ -21,6 +29,7 @@ public class Gun : MonoBehaviour
 		tf.localScale = Vector3.one;
 		tf.localPosition = Vector3.zero;
 		tf.localEulerAngles = Vector3.zero;
+		m_lastFireTime = Time.time;
 		return result;
 	}
 }

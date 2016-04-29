@@ -13,6 +13,12 @@ public class TurretVision : MonoBehaviour
 			return null;
 		}
 	}
+	public bool Empty
+	{
+		get{
+			return target.Count == 0;
+		}
+	}
 	public List<GameObject> target = new List<GameObject>();
 	void OnTriggerEnter(Collider collider)
 	{
