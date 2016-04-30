@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Turret : MonoBehaviour {
-	public TurretVision vision;
+	public Vision vision;
 	public Gun gun;
 	private GameObject target = null;
 	public void Fire()
@@ -11,6 +11,7 @@ public class Turret : MonoBehaviour {
 	}
 	void Update()
 	{
+		gun.target = vision.first;
 		if (target == null)
 		{
 		}

@@ -3,13 +3,11 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
+	protected void OnTriggerEnter(Collider collider)
+	{
+		collider.gameObject.SendMessage ( "OnHit", this,
+			SendMessageOptions.DontRequireReceiver);
+		Destroy (gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

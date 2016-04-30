@@ -7,6 +7,7 @@ public class Gun : MonoBehaviour
 	private float m_lastFireTime;
 	public GameObject bulletPrefab;
 	public bool debugFire = false;
+	public GameObject target = null;
 	void Update()
 	{
 		if (debugFire)
@@ -30,6 +31,7 @@ public class Gun : MonoBehaviour
 		tf.localPosition = Vector3.zero;
 		tf.localEulerAngles = Vector3.zero;
 		tf.parent = Manager.main.bulletLayer;
+
 		m_lastFireTime = Time.time;
 		return result;
 	}
