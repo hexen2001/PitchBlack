@@ -4,11 +4,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory("Pitch Black")]
-	public class ActVision : ActTurretBase
+	public class EventBase : FsmStateAction
 	{
-		public FsmEvent onFound;
-		public FsmEvent onLost;
 		public enum EventMode
 		{
 			Enter,
@@ -16,15 +13,57 @@ namespace HutongGames.PlayMaker.Actions
 			All,
 		}
 		public EventMode eventMode = EventMode.All;
-		public override void Awake()
+		public override void OnEnter()
 		{
-			base.Awake ();
-		}
-		private void CheckAndRaiseFoundEnemy()
-		{
-			if (turret!=null)
+			switch (eventMode)
 			{
-				if (turret.vision.Empty)
+			case EventMode.All:
+			case EventMode.Enter:
+				OnLogic ();
+				break;
+			}
+		}
+		public override void OnUpdate()
+		{
+			switch( eventMode )
+			{
+			case EventMode.All:
+			case EventMode.Update:
+				OnLogic ();
+				break;
+			}
+		}
+		public virtual void OnLogic()
+		{
+
+		}
+	}
+	public class ActionBase<T> : EventBase
+		where T : MonoBehaviour
+	{
+		private T m_self;
+		protected T self
+		{
+			get
+			{
+				if (null == m_self)
+				{
+					m_self = Fsm.GameObject.GetComponent<T> ();
+				}
+				return m_self;
+			}
+		}
+	}
+	[ActionCategory("Pitch Black")]
+	public class ActVision : ActionBase<Turret>
+	{
+		public FsmEvent onFound;
+		public FsmEvent onLost;
+		public override void OnLogic()
+		{
+			if (self!=null)
+			{
+				if (self.vision.Empty)
 				{
 					Fsm.Event (onLost);
 				}
@@ -34,26 +73,5 @@ namespace HutongGames.PlayMaker.Actions
 				}
 			}
 		}
-		public override void OnEnter()
-		{
-			switch (eventMode)
-			{
-			case EventMode.All:
-			case EventMode.Enter:
-				CheckAndRaiseFoundEnemy ();
-				break;
-			}
-		}
-		public override void OnUpdate()
-		{
-			switch(eventMode )
-			{
-			case EventMode.All:
-			case EventMode.Update:
-				CheckAndRaiseFoundEnemy ();
-				break;
-			}
-		}
-
 	}
 }

@@ -5,17 +5,17 @@ using UnityEngine;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("Pitch Black")]
-	public class ActAtParentForward : ActTurretBase
+	public class ActAtParentForward : ActionBase<Turret>
 	{
 		public float speed = 0.05f;
-		public override void OnUpdate()
+		public override void OnLogic()
 		{
-			if (turret.transform.parent == null)
+			if (self.transform.parent == null)
 			{
 				return;
 			}
-			turret.transform.rotation = Quaternion.Lerp
-				(turret.transform.rotation, turret.transform.parent.rotation, speed);
+			self.transform.rotation = Quaternion.Lerp
+				(self.transform.rotation, self.transform.parent.rotation, speed);
 		}
 	}
 }

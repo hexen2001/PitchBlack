@@ -5,14 +5,12 @@ using UnityEngine;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("Pitch Black")]
-	public class ActFire : ActionBase<Turret>
+	public class MarineIsMoving : ActionBase<Marine>
 	{
+		public bool isMoving = true;
+		public FsmEvent onOK;
 		public override void OnLogic()
 		{
-			if (self.gun.IsCooldown)
-			{
-				self.Fire ();
-			}
 		}
 	}
 }
