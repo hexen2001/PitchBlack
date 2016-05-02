@@ -19,4 +19,5 @@ public class Single<T> : MonoBehaviour
 public class Manager : Single<Manager>
 {
 	public Transform bulletLayer;
+	public ObjMngr objMngr;
 }

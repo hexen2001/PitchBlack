@@ -21,6 +21,7 @@ namespace HutongGames.PlayMaker.Actions
 			}
 
 			self.nav.destination = self.target.transform.position;
+			self.nav.stoppingDistance = (self.bodySize + self.target.GetComponent<Character> ().bodySize)/2;
 			if (self.nav.hasPath || self.nav.isPathStale)
 			{
 			}

@@ -15,6 +15,7 @@ public enum Camp
 }
 public abstract class Character : MonoBehaviour
 {
+	public float bodySize = 1f;
 	public Vision vision
 	{
 		get;
@@ -79,32 +80,21 @@ public abstract class Character : MonoBehaviour
 		UpdateLayer ();
 		vision = GetComponentInChildren<Vision> ();
 		gun = GetComponentInChildren<Gun> ();
-	}
-}
 
-public abstract class Runner : Character
-{
-	public NavMeshAgent nav;
-	public void SetDest(Vector3 dest)
-	{
-		nav.SetDestination (dest);
+
+		Manager.main.objMngr.AddObj(this);
 	}
-	public bool m_isMoving;
-	public bool isMoving
+	protected virtual void OnDestroy()
 	{
-		get
+		if (Manager.main != null)
 		{
-			return m_isMoving;
+			Manager.main.objMngr.RemoveObj (this);
 		}
 	}
-}
-
-public class Marine : Runner
-{
-	private void OnDrawGizmos()
+	protected virtual void OnDrawGizmos()
 	{
-		Gizmos.color = Color.blue;
 		Gizmos.matrix = transform.localToWorldMatrix;
-		Gizmos.DrawWireSphere (Vector3.zero, 1f);
+		Gizmos.color = Color.cyan;
+		Gizmos.DrawWireSphere ( Vector3.zero, bodySize /2);
 	}
 }
