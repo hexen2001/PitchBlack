@@ -56,10 +56,29 @@ public class Vision : MonoBehaviour
 	}
 	void OnDrawGizmos()
 	{
+		if (target != null)
+		{
+			Gizmos.color = Color.gray;
+			var center = transform.position;
+
+			foreach (var obj in target)
+			{
+				Gizmos.DrawLine (center, obj.transform.position);
+			}
+		}
+
+
+
+
+
 		Gizmos.color = new Color(0,0,1, 0.25f);
+
 		Gizmos.matrix = transform.localToWorldMatrix;
+
 		Gizmos.DrawWireSphere (Vector3.zero, radius );
 		Gizmos.color = Color.red;
 		Gizmos.DrawLine (Vector3.zero, Vector3.forward * radius);
+
+
 	}
 }

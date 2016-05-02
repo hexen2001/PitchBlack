@@ -15,12 +15,35 @@ public enum Camp
 }
 public abstract class Character : MonoBehaviour
 {
+	public Vision vision
+	{
+		get;
+		private set;
+	}
 	[SerializeField]
 	private Camp camp = Camp.Human;
 	public Layer layer
 	{
 		get;
 		private set;
+	}
+	private Gun gun = null;
+	public bool Fire()
+	{
+		if (null == gun)
+		{
+			return false;
+		}
+		if (gun.IsCooldown)
+		{
+			return false;
+		}
+		var go = gun.Fire ();
+		if (go != null)
+		{
+			go.layer = (int)fireLayer;
+		}
+		return true;
 	}
 	public Layer fireLayer
 	{
@@ -44,12 +67,19 @@ public abstract class Character : MonoBehaviour
 			break;
 		}
 	}
-
+	public GameObject target
+	{
+		get
+		{
+			return vision.first;
+		}
+	}
 	protected virtual void Awake()
 	{
 		UpdateLayer ();
+		vision = GetComponentInChildren<Vision> ();
+		gun = GetComponentInChildren<Gun> ();
 	}
-
 }
 
 public abstract class Runner : Character

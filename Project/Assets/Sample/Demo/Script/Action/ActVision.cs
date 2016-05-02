@@ -55,21 +55,32 @@ namespace HutongGames.PlayMaker.Actions
 		}
 	}
 	[ActionCategory("Pitch Black")]
-	public class ActVision : ActionBase<Turret>
+	public class ActVision : ActionBase<Character>
 	{
-		public FsmEvent onFound;
-		public FsmEvent onLost;
+		public enum VisionEvent
+		{
+			Enter,
+			Exit,
+		}
+		public VisionEvent mode = VisionEvent.Enter;
+		public FsmEvent onEvent;
 		public override void OnLogic()
 		{
 			if (self!=null)
 			{
-				if (self.vision.Empty)
+				if (self.target == null)
 				{
-					Fsm.Event (onLost);
+					if (mode == VisionEvent.Exit)
+					{
+						Fsm.Event (onEvent);
+					}
 				}
 				else
 				{
-					Fsm.Event (onFound);
+					if (mode == VisionEvent.Enter)
+					{
+						Fsm.Event (onEvent);
+					}
 				}
 			}
 		}

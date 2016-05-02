@@ -10,7 +10,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnLogic()
 		{
 			var tf = self.transform;
-			var enemy = self.vision.first;
+			var enemy = self.target;
 			if (null == enemy)
 			{
 				return;

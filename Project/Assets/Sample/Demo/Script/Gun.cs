@@ -7,7 +7,6 @@ public class Gun : MonoBehaviour
 	private float m_lastFireTime;
 	public GameObject bulletPrefab;
 	public bool debugFire = false;
-	public GameObject target = null;
 	void Update()
 	{
 		if (debugFire)
@@ -19,7 +18,7 @@ public class Gun : MonoBehaviour
 	public bool IsCooldown
 	{
 		get{
-			return ( m_lastFireTime + cooldown ) < Time.time;
+			return ( m_lastFireTime + cooldown ) > Time.time;
 		}
 	}
 	public GameObject Fire()
