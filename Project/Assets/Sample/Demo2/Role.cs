@@ -17,13 +17,69 @@ namespace Demo2
 	}
 	public abstract class Role : MonoBehaviour
 	{
-		public Weapon weapon;
+
+		public float bodySize = 1f;
+
+
+		private static Vector3 deathTweenMotionDistance = new Vector3 (0,1,0);
+		private const float deathShowTime = 1.5f;
+
 		public Camp camp = Camp.Human;
+
+		public int hp = 100;
+		public int maxHP = 100;
+
+		protected Vision vision;
+		protected Weapon weapon;
+		public Role target
+		{
+			get
+			{
+				if (null == m_target)
+				{
+					if (vision != null)
+					{
+						if( vision.first != null )
+						{
+							m_target = vision.first.GetComponent <Role> ();
+						}
+					}
+				}
+				return m_target;
+			}
+		}
+		[SerializeField]
+		private Role m_target = null;
 		protected virtual void Awake()
 		{
 			gameObject.layer = selfLayer;
 			weapon = GetComponentInChildren<Weapon> ();
+			vision = GetComponentInChildren<Vision> ();
 		}
+		public void OnHit(Bullet bullet)
+		{
+			Damage (bullet.damagePoint);
+		}
+		[ContextMenu("Test Damage")]
+		public void TestDamage()
+		{
+			Damage (20);
+		}
+		public void Damage(int point)
+		{
+			hp = Mathf.Clamp( hp - point, 0, maxHP );
+			if (hp == 0)
+			{
+				OnDead();
+			}
+		}
+		protected virtual void OnDead()
+		{
+			enabled = false;
+			iTween.MoveAdd (gameObject, deathTweenMotionDistance, deathShowTime);
+			Object.Destroy (gameObject, deathShowTime);
+		}
+		[ContextMenu("Fire")]
 		public bool Fire()
 		{
 			if (weapon != null )
@@ -64,6 +120,13 @@ namespace Demo2
 					return (int)Layer.Force2Fire;
 				}
 			}
+		}
+
+		void OnDrawGizmos()
+		{
+			Gizmos.color = new Color(0,0,1,0.25f);
+			Gizmos.matrix = transform.localToWorldMatrix;
+			Gizmos.DrawWireSphere( Vector3.zero, bodySize / 2f );
 		}
 	}
 }

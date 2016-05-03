@@ -10,7 +10,7 @@ namespace Demo2
 		public bool isCooldown
 		{
 			get{
-				return m_lastFireTime + cooldownTime < Time.time;
+				return m_lastFireTime + cooldownTime > Time.time;
 			}
 		}
 		private float m_lastFireTime = -100f;
