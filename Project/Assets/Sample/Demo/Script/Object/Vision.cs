@@ -15,11 +15,27 @@ static class ExtendGameObjectGetOrAddComponent
 	}
 }
 
+public abstract class VisionBase : MonoBehaviour
+{
+	public abstract GameObject first
+	{
+		get;
+	}
+	public abstract bool Empty
+	{
+		get;
+	}
+	public abstract List<GameObject> target
+	{
+		get;
+	}
+}
+
 [RequireComponent(typeof(Rigidbody))]
-public class Vision : MonoBehaviour
+public class Vision : VisionBase
 {
 	public float radius = 10f;
-	public GameObject first
+	public override GameObject first
 	{
 		get{
 			if (target.Count > 0)
@@ -29,20 +45,22 @@ public class Vision : MonoBehaviour
 			return null;
 		}
 	}
-	public bool Empty
+	public override bool Empty
 	{
 		get{
 			return target.Count == 0;
 		}
 	}
-	public List<GameObject> target
+	public override List<GameObject> target
 	{
-		get;
-		private set;
+		get
+		{
+			return m_target;
+		}
 	}
+	private List<GameObject> m_target = new List<GameObject>();
 	protected void Awake()
 	{
-		target = new List<GameObject> ();
 		gameObject.GetOrAddComponent<SphereCollider> ().radius = radius;
 	}
 	protected void OnTriggerEnter(Collider collider)

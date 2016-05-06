@@ -8,7 +8,7 @@ namespace Demo2
 		public float speed = 6f;
 		void Update()
 		{
-			transform.position += Vector3.forward * speed * Time.deltaTime;
+			transform.position += transform.forward * speed * Time.deltaTime;
 		}
 	}
 }

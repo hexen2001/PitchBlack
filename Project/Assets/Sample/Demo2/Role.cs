@@ -29,8 +29,14 @@ namespace Demo2
 		public int hp = 100;
 		public int maxHP = 100;
 
-		protected Vision vision;
-		protected Weapon weapon;
+		public NavMeshAgent nav;
+
+		protected VisionBase vision;
+		public Weapon weapon
+		{
+			get;
+			private set;
+		}
 		public Role target
 		{
 			get
@@ -55,6 +61,11 @@ namespace Demo2
 			gameObject.layer = selfLayer;
 			weapon = GetComponentInChildren<Weapon> ();
 			vision = GetComponentInChildren<Vision> ();
+			nav = GetComponent<NavMeshAgent> ();
+			if (vision != null)
+			{
+				vision.gameObject.layer = fireLayer;
+			}
 		}
 		public void OnHit(Bullet bullet)
 		{
@@ -127,6 +138,7 @@ namespace Demo2
 			Gizmos.color = new Color(0,0,1,0.25f);
 			Gizmos.matrix = transform.localToWorldMatrix;
 			Gizmos.DrawWireSphere( Vector3.zero, bodySize / 2f );
+			//gameObject.layer = (int)selfLayer;
 		}
 	}
 }

@@ -7,13 +7,14 @@ namespace Demo2
 	{
 		public Bullet prefab;
 		public float cooldownTime = 1.5f;
+		public float range = 100;
 		public bool isCooldown
 		{
 			get{
 				return m_lastFireTime + cooldownTime > Time.time;
 			}
 		}
-		private float m_lastFireTime = -100f;
+		private float m_lastFireTime = 0f;
 		public Bullet Fire(Role attacker)
 		{
 			var obj = ( Instantiate (prefab.gameObject) as GameObject ) .GetComponent<Bullet>();
