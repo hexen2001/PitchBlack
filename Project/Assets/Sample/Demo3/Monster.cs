@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Demo3
 {	
-	public class Monster : Character
+	public class Monster : MonoBehaviour
 	{
 		public NavMeshAgent nav;
 		public float speed = 7;
@@ -12,7 +12,7 @@ namespace Demo3
 		public float fireRange = 1f;
 		public float weaponCooldown = 1.5f;
 		private float m_cooldownFinishedTime = 0f;
-		public Bullet bulletPrefab;
+
 		private float m_currentSpeed;
 
 		Vector3 CalcLightForcePushDir ()
@@ -74,24 +74,14 @@ namespace Demo3
 			var step = dir * m_currentSpeed * Time.deltaTime;
 			nav.Move (step);
 		}
-		private Bullet Shot()
+		private void Shot()
 		{
-			var go = Object.Instantiate (bulletPrefab) as GameObject;
-			var tf = go.transform;
-			tf.parent = transform;
-			tf.localScale = Vector3.zero;
-			tf.localPosition = Vector3.one;
-			tf.localEulerAngles = Vector3.zero;
-			tf.parent = Manager.main.bulletLayer;
-
-			return go.GetComponent<Bullet> ();
 		}
 		private void Fire()
 		{
 			if (Time.time > m_cooldownFinishedTime)
 			{
-				var bu = Shot ();
-	
+				Shot ();
 				m_cooldownFinishedTime = Time.time+weaponCooldown;
 			}
 		}

@@ -3,14 +3,11 @@ using System.Collections;
 
 namespace Demo3
 {
-	public class Marine : Character {
+	public class Marine : MonoBehaviour {
 		public GameObject lightForce;
 		public float power = 50f;
 		public float powerMax = 100f;
 		public float powerConsume = 1f;
-		public float speed = 7f;
-		public float freeSpeed = 14f;
-		public Vector3 dir;
 		private static bool GetInputDir (out Vector2 dir)
 		{
 			bool result = false;
@@ -54,6 +51,9 @@ namespace Demo3
 				return false;
 			}
 		}
+		public float speed = 7f;
+		public float freeSpeed = 14f;
+		public Vector3 dir;
 		public void Update()
 		{
 			if (Input.GetKeyDown (KeyCode.J))
