@@ -8,15 +8,19 @@ namespace Demo4
 		public float powerSpeed = 5f;
 		void Awake()
 		{
-			Manager.main.game.refinecyCount++;
+			Game.AddRefinery(this);
 		}
 		void OnDestroy()
 		{
-			Manager.main.game.refinecyCount--;
+			Game.RemoveRefinery( this );
+		}
+		private void AddPower(float power)
+		{
+			Manager.main.game.AddPower( power );
 		}
 		void Update ()
 		{
-			Manager.main.game.AddPower( powerSpeed * Time.deltaTime );
+			AddPower( powerSpeed * Time.deltaTime );
 		}
 	}
 }
