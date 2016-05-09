@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Mine : MonoBehaviour {
+namespace Demo4
+{
+	public class Mine : MonoBehaviour
+	{
+		public Refinery refineryPrefab;
+		private Refinery m_refineryIns = null;
+		public bool CreateRefinery()
+		{
+			if (null == m_refineryIns && refineryPrefab!=null)
+			{
+				var go = Object.Instantiate
+					(refineryPrefab.gameObject) as GameObject;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+				m_refineryIns = go.GetComponent<Refinery> ();
+			}
+			return false;
+		}
 	}
 }
