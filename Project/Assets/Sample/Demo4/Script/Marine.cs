@@ -5,7 +5,7 @@ namespace Demo4
 {
 	public class Marine : MonoBehaviour
 	{
-		public GameObject light;
+		public GameObject lightObj;
 		void Awake()
 		{
 			UpdateLight ();
@@ -31,14 +31,6 @@ namespace Demo4
 		private float m_power = 100f;
 		public bool m_open = false;
 
-		void Start () {
-		
-		}
-		
-		void Update () {
-		
-		}
-
 		void UpdatePowerAndLight()
 		{
 			if (open)
@@ -57,7 +49,7 @@ namespace Demo4
 		}
 		void UpdateLight()
 		{
-			light.SetActive (open);
+			lightObj.SetActive (open);
 		}
 	}
 }
