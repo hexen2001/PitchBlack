@@ -9,11 +9,13 @@ namespace Demo4
 		private const float corpseDestroyDelay = 5f;
 		public int hp
 		{
-			get{
+			get
+			{
 				return m_hp;
 			}
-			private set{
-				m_hp = Mathf.Clamp (value, 0, hpMax);
+			private set
+			{
+				m_hp = Mathf.Clamp( value, 0, hpMax );
 			}
 		}
 		[SerializeField]
@@ -30,11 +32,11 @@ namespace Demo4
 		}
 		private void UpdateRecoverHp()
 		{
-			if (m_lastDamageTime + hpRecoverDelay < Time.time)
+			if( m_lastDamageTime + hpRecoverDelay < Time.time )
 			{
 				m_recoverHpValue += hpRecoverSpeed * Time.deltaTime;
 				int recoverHPStep = (int)m_recoverHpValue;
-				if (recoverHPStep > 0)
+				if( recoverHPStep > 0 )
 				{
 					hp += recoverHPStep;
 					m_recoverHpValue -= recoverHPStep;
@@ -43,10 +45,12 @@ namespace Demo4
 		}
 		public bool isLife
 		{
-			get{
+			get
+			{
 				return m_isLife;
 			}
-			private set{
+			private set
+			{
 				m_isLife = value;
 			}
 		}
@@ -57,21 +61,21 @@ namespace Demo4
 		public MarineBeHit beHit;
 		public void Damage(int damagePoint)
 		{
-			if (isLife)
+			if( isLife )
 			{
 				hp -= damagePoint;
-				if (hp == 0)
+				if( hp == 0 )
 				{
-					Die ();
+					Die();
 				}
-				SetDamageTimeByRecoverHpLogic ();
+				SetDamageTimeByRecoverHpLogic();
 			}
 		}
 		private void Die()
 		{
 			isLife = false;
 			hp = 0;
-			Destroy (gameObject, corpseDestroyDelay);
+			Destroy( gameObject, corpseDestroyDelay );
 		}
 		public float power
 		{
@@ -94,38 +98,36 @@ namespace Demo4
 		}
 		public bool isFreePowerMode
 		{
-			get{
+			get
+			{
 				return powerRecoverSpeed > 0f;
 			}
 		}
 		public List<BuffField> buffFields = new List<BuffField>();
-
-		void UpdateBeHitLogic ()
+		void UpdateBeHitLogic()
 		{
-			if (beHit.enabled == powerLight.isLightUp)
+			if( beHit.enabled == powerLight.isLightUp )
 			{
 				beHit.enabled = !powerLight.isLightUp;
 			}
 		}
-
-		void UpdateRecoverPower ()
+		void UpdateRecoverPower()
 		{
-			if (powerRecoverSpeed > 0f)
+			if( powerRecoverSpeed > 0f )
 			{
 				power += powerRecoverSpeed * Time.deltaTime;
 			}
 			powerLight.isFreePowerMode = isFreePowerMode;
 		}
-
-		protected void Update()
+		protected virtual void Update()
 		{
-			UpdateRecoverPower ();
+			UpdateRecoverPower();
 
-			UpdateBeHitLogic ();
+			UpdateBeHitLogic();
 
-			if (powerLight.isLightUp)
+			if( powerLight.isLightUp )
 			{
-				UpdateRecoverHp ();
+				UpdateRecoverHp();
 			}
 		}
 		protected void UpdateBuffField()
