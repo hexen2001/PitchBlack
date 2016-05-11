@@ -6,14 +6,39 @@ namespace Demo4
 {
 	public class Character : MonoBehaviour
 	{
+		private const float corpseDestroyDelay = 5f;
 		public int hp = 100;
 		public int hpMax = 100;
+		public bool isLife
+		{
+			get{
+				return m_isLife;
+			}
+			private set{
+				m_isLife = value;
+			}
+		}
+		[SerializeField]
+		private bool m_isLife = true;
 		public float powerRecoverSpeed = 0f;
 		public PowerLight powerLight = null;
 		public MarineBeHit beHit;
 		public void Damage(int damagePoint)
 		{
 			hp = Mathf.Clamp (hp - damagePoint, 0, hpMax);
+			if (isLife)
+			{
+				if (hp == 0)
+				{
+					Die ();
+				}
+			}
+		}
+		private void Die()
+		{
+			isLife = false;
+			hp = 0;
+			Destroy (gameObject, corpseDestroyDelay);
 		}
 		public float power
 		{
@@ -49,7 +74,7 @@ namespace Demo4
 			}
 			powerLight.isFreePowerMode = isFreePowerMode;
 
-			if (beHit.enabled == powerLight.isActiveAndEnabled)
+			if (beHit.enabled == powerLight.isLightUp)
 			{
 				beHit.enabled = !powerLight.isLightUp;
 			}
