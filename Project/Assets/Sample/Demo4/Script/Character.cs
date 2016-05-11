@@ -6,8 +6,15 @@ namespace Demo4
 {
 	public class Character : MonoBehaviour
 	{
+		public int hp = 100;
+		public int hpMax = 100;
 		public float powerRecoverSpeed = 0f;
 		public PowerLight powerLight = null;
+		public MarineBeHit beHit;
+		public void Damage(int damagePoint)
+		{
+			hp = Mathf.Clamp (hp - damagePoint, 0, hpMax);
+		}
 		public float power
 		{
 			get
@@ -27,12 +34,24 @@ namespace Demo4
 				powerLight.power = value;
 			}
 		}
+		public bool isFreePowerMode
+		{
+			get{
+				return powerRecoverSpeed > 0f;
+			}
+		}
 		public List<BuffField> buffFields = new List<BuffField>();
 		protected void Update()
 		{
 			if( powerRecoverSpeed > 0f )
 			{
 				power += powerRecoverSpeed * Time.deltaTime;
+			}
+			powerLight.isFreePowerMode = isFreePowerMode;
+
+			if (beHit.enabled == powerLight.isActiveAndEnabled)
+			{
+				beHit.enabled = !powerLight.isLightUp;
 			}
 		}
 		protected void UpdateBuffField()

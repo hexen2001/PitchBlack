@@ -10,6 +10,7 @@ namespace Demo4
 		private float m_power = 100f;
 		[SerializeField]
 		private float m_powerMax = 100f;
+		public bool isFreePowerMode = false;
 		public float power
 		{
 			get
@@ -70,7 +71,10 @@ namespace Demo4
 		{
 			if( null != lightObj && isLightUp )
 			{
-				power -= Time.deltaTime * consumeSpeed;
+				if (!isFreePowerMode)
+				{
+					power -= Time.deltaTime * consumeSpeed;
+				}
 				lightObj.localScale = Vector3.Lerp( lightObj.localScale, lightScale, 0.1f );
 			}
 			else
