@@ -7,8 +7,40 @@ namespace Demo4
 	public class Character : MonoBehaviour
 	{
 		private const float corpseDestroyDelay = 5f;
-		public int hp = 100;
+		public int hp
+		{
+			get{
+				return m_hp;
+			}
+			private set{
+				m_hp = Mathf.Clamp (value, 0, hpMax);
+			}
+		}
+		[SerializeField]
+		private int m_hp = 100;
 		public int hpMax = 100;
+		public float hpRecoverDelay = 2f;
+		public float hpRecoverSpeed = 1f;
+		private float m_lastDamageTime = 0f;
+		private float m_recoverHpValue = 0f;
+		private void SetDamageTimeByRecoverHpLogic()
+		{
+			m_recoverHpValue = 0f;
+			m_lastDamageTime = Time.time;
+		}
+		private void UpdateRecoverHp()
+		{
+			if (m_lastDamageTime + hpRecoverDelay < Time.time)
+			{
+				m_recoverHpValue += hpRecoverSpeed * Time.deltaTime;
+				int recoverHPStep = (int)m_recoverHpValue;
+				if (recoverHPStep > 0)
+				{
+					hp += recoverHPStep;
+					m_recoverHpValue -= recoverHPStep;
+				}
+			}
+		}
 		public bool isLife
 		{
 			get{
@@ -25,13 +57,14 @@ namespace Demo4
 		public MarineBeHit beHit;
 		public void Damage(int damagePoint)
 		{
-			hp = Mathf.Clamp (hp - damagePoint, 0, hpMax);
 			if (isLife)
 			{
+				hp -= damagePoint;
 				if (hp == 0)
 				{
 					Die ();
 				}
+				SetDamageTimeByRecoverHpLogic ();
 			}
 		}
 		private void Die()
@@ -66,17 +99,33 @@ namespace Demo4
 			}
 		}
 		public List<BuffField> buffFields = new List<BuffField>();
-		protected void Update()
+
+		void UpdateBeHitLogic ()
 		{
-			if( powerRecoverSpeed > 0f )
+			if (beHit.enabled == powerLight.isLightUp)
+			{
+				beHit.enabled = !powerLight.isLightUp;
+			}
+		}
+
+		void UpdateRecoverPower ()
+		{
+			if (powerRecoverSpeed > 0f)
 			{
 				power += powerRecoverSpeed * Time.deltaTime;
 			}
 			powerLight.isFreePowerMode = isFreePowerMode;
+		}
 
-			if (beHit.enabled == powerLight.isLightUp)
+		protected void Update()
+		{
+			UpdateRecoverPower ();
+
+			UpdateBeHitLogic ();
+
+			if (powerLight.isLightUp)
 			{
-				beHit.enabled = !powerLight.isLightUp;
+				UpdateRecoverHp ();
 			}
 		}
 		protected void UpdateBuffField()
