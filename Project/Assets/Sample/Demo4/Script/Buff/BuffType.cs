@@ -7,6 +7,7 @@ namespace Demo4
 	{
 		RecoverPowerSpeed,
 		BlackDamage,
+		Light,
 	}
 	public abstract  class Buff : MonoBehaviour
 	{
