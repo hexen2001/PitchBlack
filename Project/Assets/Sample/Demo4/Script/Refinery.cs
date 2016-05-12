@@ -3,9 +3,15 @@ using System.Collections;
 
 namespace Demo4
 {
+	public enum ResourceType
+	{
+		Power,
+		Metal,
+	}
 	public class Refinery : MonoBehaviour
 	{
-		public float powerSpeed = 5f;
+		public ResourceType resourceType = ResourceType.Power;
+		public float speed = 1f;
 		void Awake()
 		{
 			Game.AddRefinery(this);
@@ -14,13 +20,9 @@ namespace Demo4
 		{
 			Game.RemoveRefinery( this );
 		}
-		private void AddPower(float power)
-		{
-			Manager.main.game.AddPower( power );
-		}
 		void Update ()
 		{
-			AddPower( powerSpeed * Time.deltaTime );
+			Manager.main.game.AddResource( resourceType, speed * Time.deltaTime );
 		}
 	}
 }

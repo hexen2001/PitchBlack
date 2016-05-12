@@ -7,8 +7,10 @@ namespace Demo4
 	{
 		public int matal
 		{
-			get;
-			private set;
+			get
+			{
+				return (int)m_metal;
+			}
 		}
 		public int power
 		{
@@ -16,11 +18,6 @@ namespace Demo4
 			{
 				return (int)m_power;
 			}
-		}
-		private void Awake()
-		{
-			matal = 0;
-			m_power = 0f;
 		}
 		public int refineryCount
 		{
@@ -43,10 +40,22 @@ namespace Demo4
 				main.refineryList.Remove( refinery );
 			}
 		}
-		public void AddPower(float value)
+		public void AddResource(ResourceType resourceType, float value)
 		{
-			m_power += value;
+			switch(resourceType)
+			{
+			case ResourceType.Power:
+				m_power += value;
+				break;
+			case ResourceType.Metal:
+			default:
+				m_metal += value;
+				break;
+			}
 		}
+		[SerializeField]
+		private float m_metal = 0f;
+		[SerializeField]
 		private float m_power = 0f;
 		void OnGUI()
 		{
