@@ -5,6 +5,7 @@ namespace Demo4
 {
 	public class BuffField : MonoBehaviour
 	{
+		public Buff prefab;
 		public List<Character> targetList = new List<Character> ();
 		void OnTriggerEnter(Collider collider)
 		{
@@ -26,12 +27,11 @@ namespace Demo4
 		}
 		protected virtual void OnCharacterIn(Character target)
 		{
+			target.AddBuff (prefab);
 		}
 		protected virtual void OnCharacterOut(Character target)
 		{
-		}
-		protected virtual void Update()
-		{
+			target.RemoveBuff (prefab);
 		}
 	}
 }

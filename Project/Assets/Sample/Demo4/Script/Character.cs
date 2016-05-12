@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 namespace Demo4
 {
-	public class Character : MonoBehaviour
+	public class Character : BuffList
 	{
+
+
 		private const float corpseDestroyDelay = 5f;
 		public int hp
 		{
@@ -99,7 +101,7 @@ namespace Demo4
 		{
 			get
 			{
-				return GetComponent<BuffPowerRecover>()!=null;
+				return HasBuff (BuffType.RecoverPowerSpeed);
 			}
 		}
 		void UpdateBeHitLogic()

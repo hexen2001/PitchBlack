@@ -19,23 +19,26 @@ namespace Demo4
 			get{
 				if (null == m_self)
 				{
-					m_self = GetComponent<Character> ();
+					m_self = transform.GetComponentInParent<Character> ();
 				}
 				return m_self;
 			}
 		}
+		[SerializeField]
 		private Character m_self;
 		public void AddRef()
 		{
 			++m_refCounter;
 		}
-		public void Release()
+		public bool Release()
 		{
 			--m_refCounter;
 			if (0 >= m_refCounter)
 			{
-				Object.Destroy (this);
+				Object.Destroy (gameObject);
+				return true;
 			}
+			return false;
 		}
 		private int m_refCounter = 0;
 	}

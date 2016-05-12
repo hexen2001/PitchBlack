@@ -13,6 +13,15 @@ static class ExtendGameObjectGetOrAddComponent
 		}
 		return result;
 	}
+	public static Component GetOrAddComponent(this GameObject self, System.Type type)
+	{
+		var result = self.GetComponent( type );
+		if (result == null)
+		{
+			result = self.AddComponent( type );
+		}
+		return result;
+	}
 }
 
 public abstract class VisionBase : MonoBehaviour
