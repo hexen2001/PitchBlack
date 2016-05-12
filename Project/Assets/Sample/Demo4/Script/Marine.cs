@@ -19,16 +19,17 @@ namespace Demo4
 			{
 				nav.Move( dir * m_speed * Time.deltaTime );
 				m_speed = Mathf.Clamp( m_speed + accSpeed * Time.deltaTime, 0f, speed );
+
+				transform.rotation = Quaternion.Slerp(
+					transform.rotation,
+					Quaternion.LookRotation( dir, transform.up ),
+					0.1f ); ;
 			}
 			else
 			{
 				m_speed = Mathf.Clamp( m_speed - accSpeed * Time.deltaTime, 0f, speed );
 			}
 
-			transform.rotation = Quaternion.Slerp(
-				transform.rotation,
-				Quaternion.LookRotation( dir, transform.up ),
-				0.1f ); ;
 		}
 	}
 }

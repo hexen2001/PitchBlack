@@ -25,6 +25,17 @@ namespace Demo4
 		public float hpRecoverSpeed = 1f;
 		private float m_lastDamageTime = 0f;
 		private float m_recoverHpValue = 0f;
+		public bool isLife
+		{
+			get
+			{
+				return m_isLife;
+			}
+			private set
+			{
+				m_isLife = value;
+			}
+		}
 		private void SetDamageTimeByRecoverHpLogic()
 		{
 			m_recoverHpValue = 0f;
@@ -43,20 +54,8 @@ namespace Demo4
 				}
 			}
 		}
-		public bool isLife
-		{
-			get
-			{
-				return m_isLife;
-			}
-			private set
-			{
-				m_isLife = value;
-			}
-		}
 		[SerializeField]
 		private bool m_isLife = true;
-		public float powerRecoverSpeed = 0f;
 		public PowerLight powerLight = null;
 		public MarineBeHit beHit;
 		public void Damage(int damagePoint)
@@ -100,10 +99,9 @@ namespace Demo4
 		{
 			get
 			{
-				return powerRecoverSpeed > 0f;
+				return GetComponent<BuffPowerRecover>()!=null;
 			}
 		}
-		public List<BuffField> buffFields = new List<BuffField>();
 		void UpdateBeHitLogic()
 		{
 			if( beHit.enabled == powerLight.isLightUp )
@@ -113,10 +111,6 @@ namespace Demo4
 		}
 		void UpdateRecoverPower()
 		{
-			if( powerRecoverSpeed > 0f )
-			{
-				power += powerRecoverSpeed * Time.deltaTime;
-			}
 			powerLight.isFreePowerMode = isFreePowerMode;
 		}
 		protected virtual void Update()
@@ -128,35 +122,6 @@ namespace Demo4
 			if( powerLight.isLightUp )
 			{
 				UpdateRecoverHp();
-			}
-		}
-		protected void UpdateBuffField()
-		{
-			powerRecoverSpeed = 0f;
-			foreach( var field in buffFields )
-			{
-				if( field != null )
-				{
-					powerRecoverSpeed += field.powerRecoverSpeed;
-				}
-			}
-		}
-		protected void OnTriggerEnter(Collider collider)
-		{
-			var powerRecoverField = collider.gameObject.GetComponent<BuffField>();
-			if( powerRecoverField != null )
-			{
-				buffFields.Add( powerRecoverField );
-				UpdateBuffField();
-			}
-		}
-		protected void OnTriggerExit(Collider collider)
-		{
-			var recoverField = collider.gameObject.GetComponent<BuffField>();
-			if( recoverField != null )
-			{
-				buffFields.Remove( recoverField );
-				UpdateBuffField();
 			}
 		}
 	}
