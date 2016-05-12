@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Demo4
 {
+	//	施加状态的装置
+	//	进入范围将申请获得某状态
+	//	离开后将申请移除某状态
 	public class BuffCaster : MonoBehaviour
 	{
 		public Buff prefab = null;
-		void Start()
-		{
-		}
 		void OnTriggerEnter(Collider collider)
 		{
 			if (enabled)
@@ -17,7 +17,6 @@ namespace Demo4
 				if (target != null)
 				{
 					target.AddBuff (prefab);
-					OnCharacterIn (target);
 				}
 			}
 		}
@@ -28,16 +27,9 @@ namespace Demo4
 				var target = collider.gameObject.GetComponent<BuffList> ();
 				if (target != null)
 				{
-					OnCharacterOut (target);
 					target.RemoveBuff (prefab);
 				}
 			}
-		}
-		protected virtual void OnCharacterIn(BuffList target)
-		{
-		}
-		protected virtual void OnCharacterOut(BuffList target)
-		{
 		}
 	}
 }
