@@ -25,6 +25,7 @@ namespace Demo4
 				return refineryList.Count;
 			}
 		}
+		public Marine marine;
 		public List<Refinery> refineryList = new List<Refinery>();
 		public static void AddRefinery(Refinery refinery)
 		{
