@@ -1,22 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TouchField : MonoBehaviour
+namespace Demo4
 {
-	public GameObject target;
-	public bool active = true;
-	void OnTriggerEnter(Collider collider)
+	public class TouchField : Toggle
 	{
-		if (target != null)
+		void OnTriggerEnter(Collider collider)
 		{
-			target.SetActive (active);
+			Raise (true);
 		}
-	}
-	void OnTriggerExit(Collider collider)
-	{
-		if (target != null)
+		void OnTriggerExit(Collider collider)
 		{
-			target.SetActive (!active);
+			Raise (false);
 		}
 	}
 }

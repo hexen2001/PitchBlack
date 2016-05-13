@@ -23,6 +23,8 @@ namespace Demo4
 	public class Manager : Single<Manager>
 	{
 		public Game game;
+		public Transform buildingLayer;
+		public Transform bulletLayer;
 
 	}
 

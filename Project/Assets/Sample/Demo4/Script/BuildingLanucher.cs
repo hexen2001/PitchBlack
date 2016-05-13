@@ -29,7 +29,7 @@ namespace Demo4
 			else
 			{
 				var go = prefab.Create (transform);
-				go.transform.parent = transform.parent;
+				go.transform.parent = Manager.main.buildingLayer;
 				Object.Destroy (gameObject);
 			}
 		}
