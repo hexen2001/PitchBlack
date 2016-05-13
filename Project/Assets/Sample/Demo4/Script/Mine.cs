@@ -5,6 +5,7 @@ namespace Demo4
 {
 	public class Mine : MonoBehaviour
 	{
+		public ResourceType type = ResourceType.Power;
 		public Refinery refineryPrefab;
 		private Refinery m_refineryIns = null;
 		public bool CreateRefinery()

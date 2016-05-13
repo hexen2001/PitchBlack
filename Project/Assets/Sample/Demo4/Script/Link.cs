@@ -18,6 +18,15 @@ public static class ExtendGameObject
 		return go;
 	}
 
+	public static void Call (this MonoBehaviour self,System.Action func, float time)
+	{
+		self.StartCoroutine (_Call (func, time));
+	}
+	private static IEnumerator _Call(System.Action func, float time)
+	{
+		yield return new WaitForSeconds (time);
+		func ();
+	}
 	public static void Destroy (this GameObject self)
 	{
 		DestroyObject (self);
@@ -52,6 +61,8 @@ public class Link : MonoBehaviour
 	public Mode mode = Mode.Manual;
 	
 	public GameObject prefab = null;
+
+	public float delay = 0f;
 
 	public GameObject instance
 	{
@@ -90,7 +101,7 @@ public class Link : MonoBehaviour
 		if (mode == Mode.LoadOnAwake)
 		{
 			Debug.Assert (!isLoaded, "Invalid link state", gameObject);
-			Load ();
+			this.Call (Load, delay);
 		}
 	}
 
