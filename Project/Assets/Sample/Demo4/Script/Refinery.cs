@@ -3,15 +3,16 @@ using System.Collections;
 
 namespace Demo4
 {
-	public enum ResourceType
+	public enum ResType
 	{
 		Power,
 		Metal,
 	}
 	public class Refinery : MonoBehaviour
 	{
-		public ResourceType resourceType = ResourceType.Power;
+		public ResType resourceType = ResType.Power;
 		public float speed = 1f;
+		private float m_addValue = 0f;
 		void Awake()
 		{
 			Game.AddRefinery(this);
@@ -22,7 +23,13 @@ namespace Demo4
 		}
 		void Update ()
 		{
-			Manager.main.game.AddResource( resourceType, speed * Time.deltaTime );
+			m_addValue += speed * Time.deltaTime;
+			if (m_addValue >= 1.0f)
+			{
+				int value = (int)m_addValue;
+				m_addValue -= value;
+				Manager.main.game.Add( new PayPair( resourceType, value ) );
+			}
 		}
 	}
 }

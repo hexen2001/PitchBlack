@@ -41,14 +41,56 @@ namespace Demo4
 				main.refineryList.Remove( refinery );
 			}
 		}
-		public void AddResource(ResourceType resourceType, float value)
+		public bool CheckPay(params PayPair[] pairs)
 		{
-			switch(resourceType)
+			foreach (var pair in pairs)
 			{
-			case ResourceType.Power:
+				if (GetRes (pair.type) < pair.value)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		public void Pay(params PayPair[] pairs)
+		{
+			foreach (var pair in pairs)
+			{
+				AddRes (pair.type, pair.value);
+			}
+		}
+		private int GetRes(ResType type)
+		{
+			switch(type)
+			{
+			case ResType.Power:
+				return (int)m_power;
+			case ResType.Metal:
+			default:
+				return (int)m_metal;
+			}
+		}
+		private void SetRes(ResType type, int value)
+		{
+			switch(type)
+			{
+			case ResType.Power:
+				m_power = value;
+				break;
+			case ResType.Metal:
+			default:
+				m_metal = value;
+				break;
+			}
+		}
+		private void AddRes(ResType type, int value)
+		{
+			switch(type)
+			{
+			case ResType.Power:
 				m_power += value;
 				break;
-			case ResourceType.Metal:
+			case ResType.Metal:
 			default:
 				m_metal += value;
 				break;
