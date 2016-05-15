@@ -52,11 +52,18 @@ namespace Demo4
 			}
 			return true;
 		}
-		public void Pay(params PayPair[] pairs)
+		public void Add(params PayPair[] pairs)
 		{
 			foreach (var pair in pairs)
 			{
 				AddRes (pair.type, pair.value);
+			}
+		}
+		public void Pay(params PayPair[] pairs)
+		{
+			foreach (var pair in pairs)
+			{
+				AddRes (pair.type, -pair.value);
 			}
 		}
 		private int GetRes(ResType type)
@@ -83,7 +90,7 @@ namespace Demo4
 				break;
 			}
 		}
-		private void AddRes(ResType type, int value)
+		public void AddRes(ResType type, int value)
 		{
 			switch(type)
 			{
