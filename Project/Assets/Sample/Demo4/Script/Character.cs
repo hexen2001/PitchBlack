@@ -9,7 +9,7 @@ namespace Demo4
 		public int attackDamage = 5;
 
 		private const float corpseDestroyDelay = 5f;
-		public int hp
+		public float hp
 		{
 			get
 			{
@@ -18,15 +18,15 @@ namespace Demo4
 			private set
 			{
 				m_hp = Mathf.Clamp( value, 0, hpMax );
+				UpdateLifeState ();
 			}
 		}
 		[SerializeField]
-		private int m_hp = 100;
-		public int hpMax = 100;
-		public float hpRecoverDelay = 2f;
+		private float m_hp = 100;
+		public float hpMax = 100;
 		public float hpRecoverSpeed = 1f;
-		private float m_lastDamageTime = 0f;
-		private float m_recoverHpValue = 0f;
+		//	黑暗造成的每秒伤害
+		public float darkDamage = 1f;
 		public bool isLife
 		{
 			get
@@ -38,38 +38,40 @@ namespace Demo4
 				m_isLife = value;
 			}
 		}
-		private void SetDamageTimeByRecoverHpLogic()
+		public bool hasLight
 		{
-			m_recoverHpValue = 0f;
-			m_lastDamageTime = Time.time;
+			get
+			{
+				return HasBuff(BuffType.Light)|| powerLight.isLightUp;
+			}
 		}
+		//	生命恢复逻辑
 		private void UpdateRecoverHp()
 		{
-			if( m_lastDamageTime + hpRecoverDelay < Time.time )
+			if (hpRecoverSpeed > 0f&& hasLight)
 			{
-				m_recoverHpValue += hpRecoverSpeed * Time.deltaTime;
-				int recoverHPStep = (int)m_recoverHpValue;
-				if( recoverHPStep > 0 )
-				{
-					hp += recoverHPStep;
-					m_recoverHpValue -= recoverHPStep;
-				}
+				hp += (hpRecoverSpeed * Time.deltaTime);
 			}
 		}
 		[SerializeField]
 		private bool m_isLife = true;
 		public PowerLight powerLight = null;
 		public MarineBeHit beHit;
+
+		void UpdateLifeState ()
+		{
+			if (hp <= float.Epsilon)
+			{
+				Die ();
+			}
+		}
+
 		public void Damage(int damagePoint)
 		{
 			if( isLife )
 			{
 				hp -= damagePoint;
-				if( hp == 0 )
-				{
-					Die();
-				}
-				SetDamageTimeByRecoverHpLogic();
+				UpdateLifeState ();
 			}
 		}
 		public void OnHit(Bullet bullet)
@@ -80,7 +82,7 @@ namespace Demo4
 		private void Die()
 		{
 			isLife = false;
-			hp = 0;
+			m_hp = 0;
 			Destroy( gameObject, corpseDestroyDelay );
 		}
 		public float power
@@ -114,28 +116,28 @@ namespace Demo4
 		//	被伤害逻辑
 		//	这个伤害来自黑暗中的怪物
 		//	一种逻辑上的直接伤害
-		void UpdateBeHitLogic()
+		void UpdateDarkDamage()
 		{
-			if( beHit.enabled == powerLight.isLightUp )
+			if (isLife && !hasLight)
 			{
-				beHit.enabled = !powerLight.isLightUp;
+				hp -= darkDamage * Time.deltaTime;
 			}
 		}
 		//	回复能量逻辑
 		void UpdateRecoverPower()
 		{
-			powerLight.isFreePowerMode = isFreePowerMode;
+			if (isLife && isFreePowerMode)
+			{
+				powerLight.isFreePowerMode = isFreePowerMode;
+			}
 		}
 		protected virtual void Update()
 		{
 			UpdateRecoverPower();
 
-			UpdateBeHitLogic();
+			UpdateDarkDamage();
 
-			if( powerLight.isLightUp )
-			{
-				UpdateRecoverHp();
-			}
+			UpdateRecoverHp();
 		}
 	}
 }
