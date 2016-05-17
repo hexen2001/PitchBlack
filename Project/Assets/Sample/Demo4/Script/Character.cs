@@ -76,6 +76,7 @@ namespace Demo4
 		{
 			Damage(bullet.damagePoint );
 		}
+		//	处死角色
 		private void Die()
 		{
 			isLife = false;
@@ -101,6 +102,8 @@ namespace Demo4
 				powerLight.power = value;
 			}
 		}
+		//	是否处于无限能量模式
+		//	此状态中可以恢复能量
 		public bool isFreePowerMode
 		{
 			get
@@ -108,6 +111,9 @@ namespace Demo4
 				return HasBuff (BuffType.RecoverPowerSpeed);
 			}
 		}
+		//	被伤害逻辑
+		//	这个伤害来自黑暗中的怪物
+		//	一种逻辑上的直接伤害
 		void UpdateBeHitLogic()
 		{
 			if( beHit.enabled == powerLight.isLightUp )
@@ -115,6 +121,7 @@ namespace Demo4
 				beHit.enabled = !powerLight.isLightUp;
 			}
 		}
+		//	回复能量逻辑
 		void UpdateRecoverPower()
 		{
 			powerLight.isFreePowerMode = isFreePowerMode;
