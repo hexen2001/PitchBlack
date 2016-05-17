@@ -6,16 +6,25 @@ namespace Demo4
 {
 	public class Character : BuffList
 	{
+		/// <summary>
+		/// 单次攻击造成的伤害
+		/// </summary>
 		public int attackDamage = 5;
-
+		/// <summary>
+		/// 毁尸延迟
+		/// </summary>
 		private const float corpseDestroyDelay = 5f;
+		/// <summary>
+		/// 当前生命值
+		/// </summary>
+		/// <value>The hp.</value>
 		public float hp
 		{
 			get
 			{
 				return m_hp;
 			}
-			private set
+			set
 			{
 				m_hp = Mathf.Clamp( value, 0, hpMax );
 				UpdateLifeState ();
@@ -25,8 +34,6 @@ namespace Demo4
 		private float m_hp = 100;
 		public float hpMax = 100;
 		public float hpRecoverSpeed = 1f;
-		//	黑暗造成的每秒伤害
-		public float darkDamage = 1f;
 		public bool isLife
 		{
 			get
@@ -38,25 +45,8 @@ namespace Demo4
 				m_isLife = value;
 			}
 		}
-		public bool hasLight
-		{
-			get
-			{
-				return HasBuff(BuffType.Light)|| powerLight.isLightUp;
-			}
-		}
-		//	生命恢复逻辑
-		private void UpdateRecoverHp()
-		{
-			if (hpRecoverSpeed > 0f&& hasLight)
-			{
-				hp += (hpRecoverSpeed * Time.deltaTime);
-			}
-		}
 		[SerializeField]
 		private bool m_isLife = true;
-		public PowerLight powerLight = null;
-		public MarineBeHit beHit;
 
 		void UpdateLifeState ()
 		{
@@ -65,18 +55,15 @@ namespace Demo4
 				Die ();
 			}
 		}
-
-		public void Damage(int damagePoint)
-		{
-			if( isLife )
-			{
-				hp -= damagePoint;
-				UpdateLifeState ();
-			}
-		}
 		public void OnHit(Bullet bullet)
 		{
-			Damage(bullet.damagePoint );
+			hp -= bullet.damagePoint;
+		}
+		public virtual bool hasLight
+		{
+			get{
+				return HasBuff (BuffType.Light);
+			}
 		}
 		//	处死角色
 		private void Die()
@@ -85,57 +72,19 @@ namespace Demo4
 			m_hp = 0;
 			Destroy( gameObject, corpseDestroyDelay );
 		}
-		public float power
+		/// <summary>
+		/// 生命恢复逻辑
+		/// </summary>
+		private void UpdateRecoverHp()
 		{
-			get
+			if (hpRecoverSpeed > 0f&& hasLight)
 			{
-				if( powerLight == null )
-				{
-					return 0f;
-				}
-				return powerLight.power;
-			}
-			set
-			{
-				if( powerLight == null )
-				{
-					return;
-				}
-				powerLight.power = value;
+				hp += (hpRecoverSpeed * Time.deltaTime);
 			}
 		}
-		//	是否处于无限能量模式
-		//	此状态中可以恢复能量
-		public bool isFreePowerMode
-		{
-			get
-			{
-				return HasBuff (BuffType.RecoverPowerSpeed);
-			}
-		}
-		//	被伤害逻辑
-		//	这个伤害来自黑暗中的怪物
-		//	一种逻辑上的直接伤害
-		void UpdateDarkDamage()
-		{
-			if (isLife && !hasLight)
-			{
-				hp -= darkDamage * Time.deltaTime;
-			}
-		}
-		//	回复能量逻辑
-		void UpdateRecoverPower()
-		{
-			if (isLife && isFreePowerMode)
-			{
-				powerLight.isFreePowerMode = isFreePowerMode;
-			}
-		}
+
 		protected virtual void Update()
 		{
-			UpdateRecoverPower();
-
-			UpdateDarkDamage();
 
 			UpdateRecoverHp();
 		}

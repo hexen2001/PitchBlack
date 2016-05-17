@@ -15,6 +15,17 @@ namespace Demo4
 		{
 			get;
 		}
+		protected Marine marine
+		{
+			get
+			{
+				if (null != self && self is Marine )
+				{
+					return self as Marine;
+				}
+				return null;
+			}
+		}
 		protected Character self
 		{
 			get{

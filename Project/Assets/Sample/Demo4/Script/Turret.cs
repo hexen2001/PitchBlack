@@ -13,7 +13,7 @@ namespace Demo4
 		}
 		void Fire()
 		{
-			if (!gun.IsCooldown )
+			if ( !gun.IsCooldown )
 			{
 				var go = gun.Fire ();
 				go.GetComponent<Bullet> ().damagePoint = attackDamage;
@@ -21,7 +21,7 @@ namespace Demo4
 			}
 		}
 
-		protected void Update()
+		protected override void Update()
 		{
 			if (vision.target != null)
 			{

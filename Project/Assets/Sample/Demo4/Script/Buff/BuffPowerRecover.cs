@@ -15,7 +15,11 @@ namespace Demo4
 		}
 		protected void Update()
 		{
-			self.power += recoverSpeed * Time.deltaTime;
-		}		
+			if (marine)
+			{
+				marine.power += recoverSpeed * Time.deltaTime;
+			}
+		}
+
 	}
 }
