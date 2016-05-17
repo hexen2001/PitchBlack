@@ -1,13 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : MonoBehaviour {
-
-	protected void OnTriggerEnter(Collider collider)
+namespace Demo4
+{
+	public class Bullet : MonoBehaviour
 	{
-		collider.gameObject.SendMessage ( "OnHit", this,
-			SendMessageOptions.DontRequireReceiver);
-		Destroy (gameObject);
-	}
+		public int damagePoint = 0;
+		public GameObject hitEffect = null;
+		protected void OnTriggerEnter(Collider collider)
+		{
+			collider.gameObject.SendMessage ( "OnHit", this,
+				SendMessageOptions.DontRequireReceiver);
 
+			if (hitEffect != null)
+			{
+				var go = hitEffect.Create (collider.transform);
+				var tf = go.transform;
+				tf.parent = Demo4.Manager.main.bulletLayer;
+			}
+
+
+			Destroy (gameObject);
+		}
+
+	}
 }

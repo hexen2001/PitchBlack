@@ -6,7 +6,7 @@ namespace Demo4
 {
 	public class Character : BuffList
 	{
-
+		public int attackDamage = 5;
 
 		private const float corpseDestroyDelay = 5f;
 		public int hp
@@ -71,6 +71,10 @@ namespace Demo4
 				}
 				SetDamageTimeByRecoverHpLogic();
 			}
+		}
+		public void OnHit(Bullet bullet)
+		{
+			Damage(bullet.damagePoint );
 		}
 		private void Die()
 		{
