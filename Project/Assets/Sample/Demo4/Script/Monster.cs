@@ -5,16 +5,22 @@ namespace Demo4
 {
 	public class Monster : Character
 	{
-		public Transform target;
-		public NavMeshAgent nav;
-		public Gun gun;
-		public float fireRange = 4f;
-		public int fireLayer
+		public override int selfLayer
 		{
-			get{
+			get
+			{
+				return (int)Layer.Force2;
+			}
+		}
+		public override int fireLayer
+		{
+			get
+			{
 				return (int)Layer.Force2Fire;
 			}
 		}
+		public Transform target;
+		public float fireRange = 4f;
 		protected override void Update()
 		{
 			//	check target is exist.
@@ -31,20 +37,14 @@ namespace Demo4
 			}
 
 			//	update rotation
-			Quaternion rotation = Quaternion.LookRotation (
+			Quaternion rotation = Quaternion.LookRotation
+			(
               (target.position - transform.position).normalized, transform.up
-         	 );
+         	);
 			transform.rotation = Quaternion.Slerp(transform.rotation, rotation,0.2f );
 
 			//	update fire
-			if (gun != null)
-			{
-				if (!gun.IsCooldown)
-				{
-					var go = gun.Fire ();
-					go.layer = fireLayer;
-				}
-			}
+			Fire();
 		}
 	}
 }

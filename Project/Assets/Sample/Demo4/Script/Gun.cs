@@ -2,12 +2,28 @@
 using System.Collections;
 namespace Demo4
 {
+	/// <summary>
+	/// 枪炮武器
+	/// </summary>
 	public class Gun : MonoBehaviour
 	{
-		public float cooldown = 0.3f;
+		/// <summary>
+		/// 冷却时间
+		/// </summary>
+		public float cooldown = 0.5f;
+		/// <summary>
+		/// 上次开火时间
+		/// </summary>
 		private float m_lastFireTime;
-		public GameObject bulletPrefab;
+		/// <summary>
+		/// 子弹Prefab
+		/// </summary>
+		public Bullet bulletPrefab;
+		/// <summary>
+		/// 子弹出膛的参照位置和方向
+		/// </summary>
 		public Transform mark;
+
 		public bool debugFire = false;
 		public int damagePoint = 1;
 		void Update()
@@ -18,22 +34,33 @@ namespace Demo4
 				Fire ();
 			}
 		}
-		public bool IsCooldown
+		/// <summary>
+		/// 当前已进入冷却中(不能开火)
+		/// </summary>
+		/// <value><c>true</c> if this instance is cooldown; otherwise, <c>false</c>.</value>
+		public bool IsCooldownTime
 		{
 			get{
 				return ( m_lastFireTime + cooldown ) > Time.time;
 			}
 		}
-		public GameObject Fire()
+		public Bullet Fire()
 		{
-			var go = bulletPrefab.Create (mark);
-			var tf = go.transform;
-			tf.parent = Manager.main.bulletLayer;
+			if (bulletPrefab != null)
+			{
+				var bu = bulletPrefab.gameObject.Create (mark).GetComponent<Bullet> ();
+				var tf = bu.transform;
+				tf.parent = Manager.main.bulletLayer;
+				m_lastFireTime = Time.time;
+				bu.damagePoint = damagePoint;
 
-			m_lastFireTime = Time.time;
-
-			go.GetComponent<Bullet> ().damagePoint = damagePoint;
-			return go;
+				return bu;
+			}
+			else
+			{
+				Debug.LogError ( "bulletPrefab is missing.", gameObject );
+			}
+			return null;
 		}
 	}
 }

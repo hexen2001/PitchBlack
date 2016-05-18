@@ -4,8 +4,55 @@ using System.Collections.Generic;
 
 namespace Demo4
 {
-	public class Character : BuffList
+	public abstract class Character : BuffList
 	{
+		public abstract int selfLayer
+		{
+			get;
+		}
+		public abstract int fireLayer
+		{
+			get;
+		}
+		protected virtual
+		void Awake()
+		{
+			gameObject.layer = selfLayer;
+		}
+		public Bullet Fire()
+		{
+			if (gun != null && !gun.IsCooldownTime)
+			{
+				var bu = gun.Fire ();
+				if (bu != null)
+				{
+					bu.gameObject.layer = fireLayer;
+					return bu;
+				}
+			}
+			return null;
+		}
+		/// <summary>
+		/// 视野,可选
+		/// </summary>
+		public Vision vision = null;
+		/// <summary>
+		/// 武器,可选
+		/// </summary>
+		public Gun gun = null;
+		/// <summary>
+		/// 导航网格运动
+		/// </summary>
+		public NavMeshAgent nav = null;
+		/// <summary>
+		/// 生命值上限
+		/// </summary>
+		[SerializeField]
+		public float hpMax = 100;
+		/// <summary>
+		/// 生命值恢复速度,单位:点数/每秒
+		/// </summary>
+		public float hpRecoverSpeed = 1f;
 		/// <summary>
 		/// 单次攻击造成的伤害
 		/// </summary>
@@ -30,10 +77,10 @@ namespace Demo4
 				UpdateLifeState ();
 			}
 		}
-		[SerializeField]
-		private float m_hp = 100;
-		public float hpMax = 100;
-		public float hpRecoverSpeed = 1f;
+		/// <summary>
+		/// 是否活着
+		/// </summary>
+		/// <value><c>true</c> if is life; otherwise, <c>false</c>.</value>
 		public bool isLife
 		{
 			get
@@ -45,10 +92,10 @@ namespace Demo4
 				m_isLife = value;
 			}
 		}
-		[SerializeField]
-		private bool m_isLife = true;
-
-		void UpdateLifeState ()
+		/// <summary>
+		/// 检查是否活着的更新逻辑
+		/// </summary>
+		private void UpdateLifeState ()
 		{
 			if (hp <= float.Epsilon)
 			{
@@ -59,14 +106,20 @@ namespace Demo4
 		{
 			hp -= bullet.damagePoint;
 		}
+		/// <summary>
+		/// 是否被光照
+		/// </summary>
+		/// <value><c>true</c> if has light; otherwise, <c>false</c>.</value>
 		public virtual bool hasLight
 		{
 			get{
 				return HasBuff (BuffType.Light);
 			}
 		}
-		//	处死角色
-		private void Die()
+		/// <summary>
+		/// 处死角色
+		/// </summary>
+		public void Die()
 		{
 			isLife = false;
 			m_hp = 0;
@@ -82,11 +135,20 @@ namespace Demo4
 				hp += (hpRecoverSpeed * Time.deltaTime);
 			}
 		}
-
+		/// <summary>
+		/// 更新逻辑
+		/// </summary>
 		protected virtual void Update()
 		{
 
 			UpdateRecoverHp();
 		}
+		/// <summary>
+		/// 当前生命值
+		/// </summary>
+		[SerializeField]
+		private float m_hp = 100;
+		[SerializeField]
+		private bool m_isLife = true;
 	}
 }

@@ -4,21 +4,25 @@ namespace Demo4
 {
 	public class Turret : Character
 	{
-		public Vision vision;
-		public Gun gun;
-		private Quaternion origionRotation;
-		void Awake()
+		public override int selfLayer
 		{
-			origionRotation = transform.rotation;
-		}
-		void Fire()
-		{
-			if ( !gun.IsCooldown )
+			get
 			{
-				var go = gun.Fire ();
-				go.GetComponent<Bullet> ().damagePoint = attackDamage;
-				go.layer = vision.gameObject.layer;
+				return (int)Layer.Force1;
 			}
+		}
+		public override int fireLayer
+		{
+			get
+			{
+				return (int)Layer.Force1Fire;
+			}
+		}
+		private Quaternion origionRotation;
+		protected override void Awake()
+		{
+			base.Awake ();
+			origionRotation = transform.rotation;
 		}
 
 		protected override void Update()

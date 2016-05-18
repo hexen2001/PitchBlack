@@ -7,18 +7,40 @@ namespace Demo4
 {
 	public class Marine : Character
 	{
-		public NavMeshAgent nav;
-		public float speed = 6;
+		public override int selfLayer
+		{
+			get
+			{
+				return (int)Layer.Force1;
+			}
+		}
+		public override int fireLayer
+		{
+			get
+			{
+				return (int)Layer.Force1;
+			}
+		}
+		/// <summary>
+		///	移动速度
+		/// </summary>
+		public float moveSpeed = 8;
+		/// <summary>
+		/// 加速度
+		/// </summary>
 		public float accSpeed = 10f;
-		private float m_speed = 0f;
+		/// <summary>
+		/// 当前移动速度
+		/// </summary>
+		private float m_moveSpeed = 0f;
 		protected override void Update()
 		{
 			base.Update ();
 			Vector3 dir;
-			if( InputUtil.GetWorldInputDir( out dir ) )
+			if( InputUtil.GetWorldInputDir( out dir ) && dir != Vector3.zero )
 			{
-				nav.Move( dir * m_speed * Time.deltaTime );
-				m_speed = Mathf.Clamp( m_speed + accSpeed * Time.deltaTime, 0f, speed );
+				nav.Move( dir * m_moveSpeed * Time.deltaTime );
+				m_moveSpeed = Mathf.Clamp( m_moveSpeed + accSpeed * Time.deltaTime, 0f, moveSpeed );
 
 				transform.rotation = Quaternion.Slerp(
 					transform.rotation,
@@ -27,12 +49,15 @@ namespace Demo4
 			}
 			else
 			{
-				m_speed = Mathf.Clamp( m_speed - accSpeed * Time.deltaTime, 0f, speed );
+				m_moveSpeed = Mathf.Clamp( m_moveSpeed - accSpeed * Time.deltaTime, 0f, moveSpeed );
 			}
 
 			UpdateDarkDamage ();
 			UpdateRecoverPower();
 		}
+		/// <summary>
+		/// 造成的伤害
+		/// </summary>
 		public int damage = 1;
 		//	被伤害逻辑
 		//	这个伤害来自黑暗中的怪物
@@ -44,15 +69,20 @@ namespace Demo4
 				hp -= damage * Time.deltaTime;
 			}
 		}
+		/// <summary>
+		/// 是否有光亮
+		/// </summary>
+		/// <value>true</value>
+		/// <c>false</c>
 		public override bool hasLight
 		{
 			get{
 				return powerLight.isLightUp || base.hasLight;
 			}
 		}
-
-
-
+		/// <summary>
+		/// 灯
+		/// </summary>
 		public PowerLight powerLight = null;
 		/// <summary>
 		/// 电量
@@ -77,7 +107,6 @@ namespace Demo4
 				powerLight.power = value;
 			}
 		}
-
 		//	是否处于无限能量模式
 		//	此状态中可以恢复能量
 		public bool isFreePowerMode
