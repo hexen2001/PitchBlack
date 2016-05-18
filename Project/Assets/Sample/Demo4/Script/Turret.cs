@@ -27,6 +27,8 @@ namespace Demo4
 
 		protected override void Update()
 		{
+			base.Update ();
+
 			if (vision.target != null)
 			{
 				Vector3 dir = vision.target.transform.position - transform.position;
@@ -42,6 +44,10 @@ namespace Demo4
 			{
 				gun.transform.rotation = Quaternion.Slerp (gun.transform.rotation, origionRotation, 0.08f);
 			}
+		}
+		protected override void OnData(GameSettings settings)
+		{
+			mainWeaponDamage = settings.turretMainWeaponDamage;
 		}
 	}
 }

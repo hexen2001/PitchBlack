@@ -54,6 +54,7 @@ namespace Demo4
 
 			UpdateDarkDamage ();
 			UpdateRecoverPower();
+			UpdateRecoverHp();
 		}
 		/// <summary>
 		/// 造成的伤害
@@ -124,6 +125,20 @@ namespace Demo4
 			if (isLife && isFreePowerMode)
 			{
 				powerLight.isFreePowerMode = isFreePowerMode;
+			}
+		}
+		/// <summary>
+		/// 生命值恢复速度,单位:点数/每秒
+		/// </summary>
+		public float hpRecoverSpeed = 1f;
+		/// <summary>
+		/// 生命恢复逻辑
+		/// </summary>
+		private void UpdateRecoverHp()
+		{
+			if (hpRecoverSpeed > 0f&& hasLight)
+			{
+				hp += (hpRecoverSpeed * Time.deltaTime);
 			}
 		}
 

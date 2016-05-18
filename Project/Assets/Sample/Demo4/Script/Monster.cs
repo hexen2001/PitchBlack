@@ -23,6 +23,8 @@ namespace Demo4
 		public float fireRange = 4f;
 		protected override void Update()
 		{
+			base.Update ();
+			
 			//	check target is exist.
 			if (target == null)
 			{
@@ -45,6 +47,10 @@ namespace Demo4
 
 			//	update fire
 			Fire();
+		}
+		protected override void OnData(GameSettings settings)
+		{
+			hpMax = settings.monsterMaxHP;
 		}
 	}
 }

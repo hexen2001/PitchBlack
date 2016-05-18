@@ -25,6 +25,7 @@ namespace Demo4
 		public Game game;
 		public Transform buildingLayer;
 		public Transform bulletLayer;
+		public GameSettings settings;
 
 	}
 

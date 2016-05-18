@@ -6,6 +6,33 @@ namespace Demo4
 {
 	public abstract class Character : BuffList
 	{
+		public Title title
+		{
+			get
+			{
+				if (null == m_title)
+				{
+					m_title = GetComponent<Title> ();
+				}
+				return m_title;
+			}
+		}
+		private Title m_title;
+
+		private void UpdateHPText()
+		{
+			if (title != null)
+			{
+				title.text = ((int)hp).ToString() + "/" + ((int)hpMax).ToString();
+			}
+		}
+
+
+
+		public bool useGlobalSettings = true;
+		protected virtual void OnData(GameSettings settings)
+		{
+		}
 		public abstract int selfLayer
 		{
 			get;
@@ -14,10 +41,14 @@ namespace Demo4
 		{
 			get;
 		}
-		protected virtual
-		void Awake()
+		protected virtual void Awake()
 		{
 			gameObject.layer = selfLayer;
+			if (useGlobalSettings)
+			{
+				OnData (Manager.main.settings);
+			}
+			m_hp = hpMax;
 		}
 		public Bullet Fire()
 		{
@@ -27,6 +58,7 @@ namespace Demo4
 				if (bu != null)
 				{
 					bu.gameObject.layer = fireLayer;
+					bu.damagePoint = mainWeaponDamage;
 					return bu;
 				}
 			}
@@ -50,17 +82,13 @@ namespace Demo4
 		[SerializeField]
 		public float hpMax = 100;
 		/// <summary>
-		/// 生命值恢复速度,单位:点数/每秒
-		/// </summary>
-		public float hpRecoverSpeed = 1f;
-		/// <summary>
 		/// 单次攻击造成的伤害
 		/// </summary>
-		public int attackDamage = 5;
+		public int mainWeaponDamage = 5;
 		/// <summary>
 		/// 毁尸延迟
 		/// </summary>
-		private const float corpseDestroyDelay = 5f;
+		private const float corpseDestroyDelay = 2f;
 		/// <summary>
 		/// 当前生命值
 		/// </summary>
@@ -126,22 +154,11 @@ namespace Demo4
 			Destroy( gameObject, corpseDestroyDelay );
 		}
 		/// <summary>
-		/// 生命恢复逻辑
-		/// </summary>
-		private void UpdateRecoverHp()
-		{
-			if (hpRecoverSpeed > 0f&& hasLight)
-			{
-				hp += (hpRecoverSpeed * Time.deltaTime);
-			}
-		}
-		/// <summary>
 		/// 更新逻辑
 		/// </summary>
 		protected virtual void Update()
 		{
-
-			UpdateRecoverHp();
+			UpdateHPText ();
 		}
 		/// <summary>
 		/// 当前生命值
