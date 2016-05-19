@@ -61,5 +61,10 @@ namespace Demo4
 				Create ();
 			}
 		}
+		void OnDrawGizmos()
+		{
+			Gizmos.color = Color.green / 2;
+			Gizmos.DrawWireSphere (transform.position,1f);
+		}
 	}
 }

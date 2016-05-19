@@ -29,6 +29,11 @@ namespace Demo4
 		{
 			base.Update ();
 
+			if (!isLife)
+			{
+				return;
+			}
+
 			if (vision.target != null)
 			{
 				var dir = MathUtil.DirAt2D (transform.position, vision.target.transform.position);

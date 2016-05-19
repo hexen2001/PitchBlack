@@ -36,6 +36,12 @@ namespace Demo4
 		protected override void Update()
 		{
 			base.Update ();
+
+			if (!isLife)
+			{
+				return;
+			}
+
 			Vector3 dir;
 			if( InputUtil.GetWorldInputDir( out dir ) && dir != Vector3.zero )
 			{
