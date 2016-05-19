@@ -40,8 +40,10 @@ namespace Demo4
 				var rotation = Quaternion.LookRotation (dir, transform.up);
 				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.3f);
 
-
-				Fire ();
+				if ( Vector3.Dot (dir, transform.forward)>0.8f)
+				{
+					Fire ();
+				}
 			}
 			else
 			{

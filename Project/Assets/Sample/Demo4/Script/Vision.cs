@@ -8,25 +8,46 @@ namespace Demo4
 		public GameObject target
 		{
 			get{
-				if (0 < targets.Count)
+				if (0 < m_targets.Count)
 				{
-					return targets [0];
+					if (m_targets [0] != null)
+					{
+						return m_targets [0].gameObject;
+					}
 				}
 				return null;
 			}
 		}
-		public List<GameObject> targets = new List<GameObject>();
+		[SerializeField]
+		private List<Transform> m_targets = new List<Transform>();
 		protected void OnTriggerEnter(Collider collider)
 		{
-			targets.Add (collider.gameObject);
+			m_targets.Add (collider.transform);
 		}
 		protected void OnTriggerExit(Collider collider)
 		{
-			targets.Remove (collider.gameObject);
+			m_targets.Remove (collider.transform);
 		}
-		void Update(){
-			targets.Remove (null);
+		void Update()
+		{
+			m_targets.Remove (null);
+			m_targets.Sort (SortByDistance);
 		}
-
+		public int SortByDistance(Transform a, Transform b)
+		{
+			return
+			(a.position - transform.position).sqrMagnitude
+			< (b.position - transform.position).sqrMagnitude ?
+			-1 : 1;
+		
+		}
+		void OnDrawGizmos()
+		{
+			if (target != null)
+			{
+				Gizmos.color = Color.yellow;
+				Gizmos.DrawLine (transform.position, target.transform.position);
+			}
+		}
 	}
 }
