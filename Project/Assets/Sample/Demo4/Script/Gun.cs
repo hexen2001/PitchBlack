@@ -23,17 +23,10 @@ namespace Demo4
 		/// 子弹出膛的参照位置和方向
 		/// </summary>
 		public Transform mark;
-
-		public bool debugFire = false;
+		/// <summary>
+		/// 武器伤害
+		/// </summary>
 		public int damagePoint = 1;
-		void Update()
-		{
-			if (debugFire)
-			{
-				debugFire = !debugFire;
-				Fire ();
-			}
-		}
 		/// <summary>
 		/// 当前已进入冷却中(不能开火)
 		/// </summary>

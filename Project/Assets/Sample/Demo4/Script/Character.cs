@@ -27,8 +27,6 @@ namespace Demo4
 			}
 		}
 
-
-
 		public bool useGlobalSettings = true;
 		protected virtual void OnData(GameSettings settings)
 		{
@@ -44,21 +42,24 @@ namespace Demo4
 		protected virtual void Awake()
 		{
 			gameObject.layer = selfLayer;
+
 			if (useGlobalSettings)
 			{
 				OnData (Manager.main.settings);
 			}
 			m_hp = hpMax;
 		}
+		/// <summary>
+		/// 开火方法
+		/// </summary>
 		public Bullet Fire()
 		{
-			if (gun != null && !gun.IsCooldownTime)
+			if (mainWeapon != null && !mainWeapon.IsCooldownTime)
 			{
-				var bu = gun.Fire ();
+				var bu = mainWeapon.Fire ();
 				if (bu != null)
 				{
 					bu.gameObject.layer = fireLayer;
-					bu.damagePoint = mainWeaponDamage;
 					return bu;
 				}
 			}
@@ -71,7 +72,7 @@ namespace Demo4
 		/// <summary>
 		/// 武器,可选
 		/// </summary>
-		public Gun gun = null;
+		public Gun mainWeapon = null;
 		/// <summary>
 		/// 导航网格运动
 		/// </summary>
@@ -81,10 +82,6 @@ namespace Demo4
 		/// </summary>
 		[SerializeField]
 		public float hpMax = 100;
-		/// <summary>
-		/// 单次攻击造成的伤害
-		/// </summary>
-		public int mainWeaponDamage = 5;
 		/// <summary>
 		/// 毁尸延迟
 		/// </summary>
@@ -130,6 +127,10 @@ namespace Demo4
 				Die ();
 			}
 		}
+		/// <summary>
+		/// 击中事件
+		/// </summary>
+		/// <param name="bullet">Bullet.</param>
 		public void OnHit(Bullet bullet)
 		{
 			hp -= bullet.damagePoint;
