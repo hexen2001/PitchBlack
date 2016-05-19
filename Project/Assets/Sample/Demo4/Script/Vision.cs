@@ -24,5 +24,9 @@ namespace Demo4
 		{
 			targets.Remove (collider.gameObject);
 		}
+		void Update(){
+			targets.Remove (null);
+		}
+
 	}
 }
