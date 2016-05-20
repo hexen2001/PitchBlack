@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Demo4
 {
+	/// <summary>
+	/// 状态的容器
+	/// </summary>
 	public class BuffList : MonoBehaviour
 	{
 		public bool HasBuff(BuffType buffType)
