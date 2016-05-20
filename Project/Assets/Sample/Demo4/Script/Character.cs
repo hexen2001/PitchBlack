@@ -6,6 +6,10 @@ namespace Demo4
 {
 	public abstract class Character : BuffList
 	{
+		public Camp camp;
+		private void UpdateCamp()
+		{
+		}
 		public Title title
 		{
 			get
@@ -31,13 +35,15 @@ namespace Demo4
 		protected virtual void OnData(GameSettings settings)
 		{
 		}
-		public abstract int selfLayer
+		public int selfLayer
 		{
 			get;
+			protected set;
 		}
-		public abstract int fireLayer
+		public int fireLayer
 		{
 			get;
+			protected set;
 		}
 		protected virtual void Awake()
 		{

@@ -4,27 +4,14 @@ namespace Demo4
 {
 	public class Turret : Character
 	{
-		public override int selfLayer
-		{
-			get
-			{
-				return (int)Layer.Force1;
-			}
-		}
-		public override int fireLayer
-		{
-			get
-			{
-				return (int)Layer.Force1Fire;
-			}
-		}
 		private Quaternion origionRotation;
 		protected override void Awake()
 		{
+			selfLayer = (int)Layer.Force1;
+			fireLayer = (int)Layer.Force1Fire;
 			base.Awake ();
 			origionRotation = transform.rotation;
 		}
-
 		protected override void Update()
 		{
 			base.Update ();

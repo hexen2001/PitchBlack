@@ -7,20 +7,13 @@ namespace Demo4
 {
 	public class Marine : Character
 	{
-		public override int selfLayer
+		protected override void Awake()
 		{
-			get
-			{
-				return (int)Layer.Force1;
-			}
+			selfLayer = (int)Layer.Force1;
+			fireLayer = (int)Layer.Force1;
+			base.Awake ();
 		}
-		public override int fireLayer
-		{
-			get
-			{
-				return (int)Layer.Force1;
-			}
-		}
+
 		/// <summary>
 		///	移动速度
 		/// </summary>

@@ -5,19 +5,11 @@ namespace Demo4
 {
 	public class Monster : Character
 	{
-		public override int selfLayer
+		protected override void Awake()
 		{
-			get
-			{
-				return (int)Layer.Force2;
-			}
-		}
-		public override int fireLayer
-		{
-			get
-			{
-				return (int)Layer.Force2Fire;
-			}
+			fireLayer = (int)Layer.Force2Fire;
+			selfLayer = (int)Layer.Force2;
+			base.Awake ();
 		}
 		public GameObject target
 		{
