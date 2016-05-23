@@ -5,7 +5,7 @@ namespace Demo4
 {
 	public class BuffEnhance : BuffAdd
 	{
-		void Awake()
+		void Start()
 		{
 			Add( amount );
 		}
