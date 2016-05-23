@@ -45,6 +45,7 @@ namespace Demo4
 		}
 		private IEnumerator CreateTask(BuildingList.MakeInfo makeInfo)
 		{
+			//	
 			float endTime = Time.time + makeInfo.time;
 			while( Time.time < endTime )
 			{

@@ -26,6 +26,7 @@ namespace Demo4
 		public Transform buildingLayer;
 		public Transform bulletLayer;
 		public GameSettings settings;
+		public GridMngr gridMngr;
 
 	}
 
