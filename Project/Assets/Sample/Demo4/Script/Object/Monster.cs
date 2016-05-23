@@ -5,12 +5,34 @@ namespace Demo4
 {
 	public class Monster : Character
 	{
+		#region 层与阵营关系
+
+		public override Layer selfLayer
+		{
+			get
+			{
+				return Layer.Force2;
+			}
+		}
+
+		public override Layer fireLayer
+		{
+			get
+			{
+				return Layer.Force2Fire;
+			}
+		}
+
+		#endregion
+
 		protected override void Awake()
 		{
-			fireLayer = (int)Layer.Force2Fire;
-			selfLayer = (int)Layer.Force2;
 			base.Awake ();
 		}
+
+		/// <summary>
+		/// 当前目标
+		/// </summary>
 		public GameObject target
 		{
 			get{
@@ -21,7 +43,13 @@ namespace Demo4
 				return null;
 			}
 		}
+
+		/// <summary>
+		/// 开火范围
+		/// </summary>
 		public float fireRange = 4f;
+
+
 		protected override void Update()
 		{
 			base.Update ();

@@ -5,22 +5,16 @@ namespace Demo4
 {
 	/// <summary>
 	/// 状态的容器
+	/// 状态投射器为容器增删状态
 	/// </summary>
 	public class BuffList : MonoBehaviour
 	{
-		public bool HasBuff(BuffType buffType)
-		{
-			foreach(var buff in m_buffList )
-			{
-				if (buff.Value.type == buffType)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		private Dictionary<Buff, Buff> m_buffList
-		= new Dictionary<Buff, Buff>();
+		public ItemBag items = new ItemBag();
+
+		/// <summary>
+		/// 添加某状态
+		/// </summary>
+		/// <param name="prefab"></param>
 		public void AddBuff(Buff prefab)
 		{
 			Buff ins;
@@ -37,6 +31,11 @@ namespace Demo4
 			}
 			ins.AddRef ();
 		}
+
+		/// <summary>
+		/// 移除某状态
+		/// </summary>
+		/// <param name="prefab"></param>
 		public void RemoveBuff(Buff prefab)
 		{
 			if (m_buffList.ContainsKey (prefab))
@@ -47,5 +46,13 @@ namespace Demo4
 				}
 			}
 		}
+
+		/// <summary>
+		/// 所有状态表
+		/// key为prefab
+		/// value为实例
+		/// </summary>
+		private Dictionary<Buff, Buff> m_buffList
+		= new Dictionary<Buff, Buff>();
 	}
 }

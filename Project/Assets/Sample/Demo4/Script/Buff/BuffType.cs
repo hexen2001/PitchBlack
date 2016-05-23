@@ -3,18 +3,14 @@ using System.Collections;
 
 namespace Demo4
 {
-	public enum BuffType
+	/// <summary>
+	/// 状态基类
+	/// </summary>
+	public abstract class Buff : MonoBehaviour
 	{
-		RecoverPowerSpeed,
-		BlackDamage,
-		Light,
-	}
-	public abstract  class Buff : MonoBehaviour
-	{
-		public abstract BuffType type
-		{
-			get;
-		}
+
+
+		#region 关于所处环境
 		protected Marine marine
 		{
 			get
@@ -36,8 +32,11 @@ namespace Demo4
 				return m_self;
 			}
 		}
-		[SerializeField]
 		private Character m_self;
+		#endregion
+
+
+		#region 引用计数
 		public void AddRef()
 		{
 			++m_refCounter;
@@ -53,5 +52,8 @@ namespace Demo4
 			return false;
 		}
 		private int m_refCounter = 0;
+		#endregion
+
+
 	}
 }

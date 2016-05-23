@@ -9,7 +9,6 @@ namespace Demo4
 	/// 基于网格加载物体
 	/// 加载完就释放自身
 	/// </summary>
-	[ExecuteInEditMode]
 	public class ObjectLauncher : GridObject
 	{
 		/// <summary>
@@ -24,7 +23,7 @@ namespace Demo4
 		/// <summary>
 		/// 加载过程
 		/// </summary>
-		private IEnumerator Start()
+		protected override IEnumerator Start()
 		{
 			//	等候,并更新显示.
 			float endTime = Time.time + lanucherTime;

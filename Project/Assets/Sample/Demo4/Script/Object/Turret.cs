@@ -2,16 +2,39 @@
 using System.Collections;
 namespace Demo4
 {
+	/// <summary>
+	/// 炮塔
+	/// </summary>
 	public class Turret : Character
 	{
+		#region 层与阵营关系
+		public override Layer selfLayer
+		{
+			get
+			{
+				return Layer.Force1;
+			}
+		}
+		public override Layer fireLayer
+		{
+			get
+			{
+				return Layer.Force1Fire;
+			}
+		}
+		#endregion
+
+
 		private Quaternion origionRotation;
+
+
 		protected override void Awake()
 		{
-			selfLayer = (int)Layer.Force1;
-			fireLayer = (int)Layer.Force1Fire;
 			base.Awake ();
 			origionRotation = transform.rotation;
 		}
+
+
 		protected override void Update()
 		{
 			base.Update ();
@@ -38,6 +61,8 @@ namespace Demo4
 					(mainWeapon.transform.rotation, origionRotation, 0.08f);
 			}
 		}
+
+
 		protected override void OnData(GameSettings settings)
 		{
 			if (mainWeapon != null)
@@ -45,5 +70,6 @@ namespace Demo4
 				mainWeapon.damagePoint = settings.turretMainWeaponDamage;
 			}
 		}
+
 	}
 }

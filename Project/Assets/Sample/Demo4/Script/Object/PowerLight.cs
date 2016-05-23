@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace Demo4
 {
+	/// <summary>
+	/// 灯
+	/// 将能量转为光照区域的装置
+	/// </summary>
 	public class PowerLight : MonoBehaviour
 	{
 		public Transform lightObj = null;
@@ -23,8 +27,17 @@ namespace Demo4
 				UpdateLightState();
 			}
 		}
+
+		/// <summary>
+		/// 能量的消耗速度
+		/// </summary>
 		public float consumeSpeed = 1f;
+
+		/// <summary>
+		/// 灯光的缩放系数
+		/// </summary>
 		public Vector3 lightScale = Vector3.one;
+
 		public bool open
 		{
 			get

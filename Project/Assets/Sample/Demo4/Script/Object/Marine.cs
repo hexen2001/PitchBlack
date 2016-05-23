@@ -7,30 +7,33 @@ namespace Demo4
 {
 	public class Marine : Character
 	{
-		protected override void Awake()
+		#region 层与阵营关系
+		public override Layer selfLayer
 		{
-			selfLayer = (int)Layer.Force1;
-			fireLayer = (int)Layer.Force1;
-			base.Awake ();
+			get
+			{
+				return Layer.Force1;
+			}
 		}
 
+
+		public override Layer fireLayer
+		{
+			get
+			{
+				return Layer.Force1;
+			}
+		}
+		#endregion
+
 		/// <summary>
-		///	移动速度
+		/// 更新逻辑
 		/// </summary>
-		public float moveSpeed = 8;
-		/// <summary>
-		/// 加速度
-		/// </summary>
-		public float accSpeed = 10f;
-		/// <summary>
-		/// 当前移动速度
-		/// </summary>
-		private float m_moveSpeed = 0f;
 		protected override void Update()
 		{
-			base.Update ();
+			base.Update();
 
-			if (!isLife)
+			if( !isLife )
 			{
 				return;
 			}
@@ -51,14 +54,31 @@ namespace Demo4
 				m_moveSpeed = Mathf.Clamp( m_moveSpeed - accSpeed * Time.deltaTime, 0f, moveSpeed );
 			}
 
-			UpdateDarkDamage ();
+			UpdateDarkDamage();
 			UpdateRecoverPower();
 			UpdateRecoverHp();
 		}
+
+		/// <summary>
+		///	移动速度
+		/// </summary>
+		public float moveSpeed = 8;
+
+		/// <summary>
+		/// 加速度
+		/// </summary>
+		public float accSpeed = 10f;
+
+		/// <summary>
+		/// 当前移动速度
+		/// </summary>
+		private float m_moveSpeed = 0f;
+
 		/// <summary>
 		/// 造成的伤害
 		/// </summary>
 		public int damage = 1;
+
 		//	被伤害逻辑
 		//	这个伤害来自黑暗中的怪物
 		//	一种逻辑上的直接伤害
@@ -69,21 +89,12 @@ namespace Demo4
 				hp -= damage * Time.deltaTime;
 			}
 		}
-		/// <summary>
-		/// 是否有光亮
-		/// </summary>
-		/// <value>true</value>
-		/// <c>false</c>
-		public override bool hasLight
-		{
-			get{
-				return powerLight.isLightUp || base.hasLight;
-			}
-		}
+
 		/// <summary>
 		/// 灯
 		/// </summary>
 		public PowerLight powerLight = null;
+
 		/// <summary>
 		/// 电量
 		/// </summary>
@@ -107,15 +118,17 @@ namespace Demo4
 				powerLight.power = value;
 			}
 		}
+
 		//	是否处于无限能量模式
 		//	此状态中可以恢复能量
 		public bool isFreePowerMode
 		{
 			get
 			{
-				return HasBuff (BuffType.RecoverPowerSpeed);
+				return items.HasItem (ItemType.RecoverPowerSpeed);
 			}
 		}
+
 		/// <summary>
 		/// 回复能量逻辑
 		/// </summary>
@@ -126,10 +139,12 @@ namespace Demo4
 				powerLight.isFreePowerMode = isFreePowerMode;
 			}
 		}
+
 		/// <summary>
 		/// 生命值恢复速度,单位:点数/每秒
 		/// </summary>
 		public float hpRecoverSpeed = 1f;
+
 		/// <summary>
 		/// 生命恢复逻辑
 		/// </summary>
