@@ -5,13 +5,19 @@ namespace Demo4
 {
 	public enum ItemType : int
 	{
-		Unknown,
-		Hp,
-		Power,
+		Unknown = 0,
+		
+		Hp = 1,
+		HpMax,
+	
+		Power = 10,
+		PowerMax,
 
-		RecoverPowerSpeed,
+		Light = 20,
+
+		RecoverPowerSpeed = 100,
 		BlackDamage,
-		Light,
+
 
 	}
 }

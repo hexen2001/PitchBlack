@@ -22,13 +22,10 @@ namespace Demo4
 		/// <param name="collider"></param>
 		void OnTriggerEnter(Collider collider)
 		{
-			if( enabled )
+			var target = collider.gameObject.GetComponent<BuffList>();
+			if( target != null )
 			{
-				var target = collider.gameObject.GetComponent<BuffList>();
-				if( target != null )
-				{
-					target.AddBuff( prefab );
-				}
+				target.AddBuff( prefab );
 			}
 		}
 
@@ -38,13 +35,10 @@ namespace Demo4
 		/// <param name="collider"></param>
 		void OnTriggerExit(Collider collider)
 		{
-			if( enabled )
+			var target = collider.gameObject.GetComponent<BuffList>();
+			if( target != null )
 			{
-				var target = collider.gameObject.GetComponent<BuffList>();
-				if( target != null )
-				{
-					target.RemoveBuff( prefab );
-				}
+				target.RemoveBuff( prefab );
 			}
 		}
 	}

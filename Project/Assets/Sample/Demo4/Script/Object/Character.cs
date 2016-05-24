@@ -21,20 +21,6 @@ namespace Demo4
 
 
 		/// <summary>
-		/// 当前生命值
-		/// </summary>
-		[SerializeField]
-		private float m_hp = 100;
-
-
-		/// <summary>
-		/// 生命值上限
-		/// </summary>
-		[SerializeField]
-		public float hpMax = 100;
-
-
-		/// <summary>
 		/// 是否活着
 		/// </summary>
 		/// <value><c>true</c> if is life; otherwise, <c>false</c>.</value>
@@ -66,16 +52,24 @@ namespace Demo4
 		/// 当前生命值
 		/// </summary>
 		/// <value>The hp.</value>
-		public float hp
+		public int hp
 		{
 			get
 			{
-				return m_hp;
+				return items.Get( ItemType.Hp );
 			}
 			set
 			{
-				m_hp = Mathf.Clamp( value, 0, hpMax );
-				UpdateLifeState();
+				items.Set( ItemType.Hp, Mathf.Clamp( value, 0, hpMax ) );
+			}
+		}
+		public int hpMax
+		{
+			get{
+				return items.Get( ItemType.HpMax );
+			}
+			set{
+				items.Set( ItemType.HpMax, value );
 			}
 		}
 
@@ -86,7 +80,7 @@ namespace Demo4
 		public void Die()
 		{
 			isLife = false;
-			m_hp = 0;
+			hp = 0;
 			Destroy( gameObject, corpseDestroyDelay );
 		}
 		
@@ -107,7 +101,7 @@ namespace Demo4
 		/// </summary>
 		public void RestoreHP()
 		{
-			m_hp = hpMax;
+			hp = hpMax;
 		}
 
 		
@@ -142,7 +136,6 @@ namespace Demo4
 	
 		protected void Init()
 		{
-
 			InitData();
 			gameObject.layer = (int)selfLayer;
 		}
@@ -159,6 +152,8 @@ namespace Demo4
 		
 		protected virtual void OnData(GameSettings settings)
 		{
+			items.AddItem( ItemType.Hp, 100 );
+			items.AddItem( ItemType.HpMax, 100 );
 		}
 
 	
@@ -262,7 +257,7 @@ namespace Demo4
 		{
 			get
 			{
-				return items.HasItem( ItemType.Light );
+				return items.Get( ItemType.Light ) > 0;
 			}
 		}
 
@@ -272,6 +267,7 @@ namespace Demo4
 		/// </summary>
 		protected virtual void Update()
 		{
+			UpdateLifeState();
 			UpdateGUI();
 		}
 

@@ -38,6 +38,22 @@ namespace Demo4
 				return;
 			}
 
+			UpdateMotion();
+			UpdateDarkDamage();
+		}
+		protected override void OnData(GameSettings settings)
+		{
+			base.OnData( settings );
+			items.AddItem( ItemType.Power, 100 );
+			items.AddItem( ItemType.PowerMax, 100 );
+		}
+
+
+		/// <summary>
+		/// 运动逻辑
+		/// </summary>
+		private void UpdateMotion()
+		{
 			Vector3 dir;
 			if( InputUtil.GetWorldInputDir( out dir ) && dir != Vector3.zero )
 			{
@@ -53,10 +69,6 @@ namespace Demo4
 			{
 				m_moveSpeed = Mathf.Clamp( m_moveSpeed - accSpeed * Time.deltaTime, 0f, moveSpeed );
 			}
-
-			UpdateDarkDamage();
-			UpdateRecoverPower();
-			UpdateRecoverHp();
 		}
 
 		/// <summary>
@@ -77,7 +89,10 @@ namespace Demo4
 		/// <summary>
 		/// 造成的伤害
 		/// </summary>
-		public int damage = 1;
+		public int darkDamage = 1;
+
+		public float darkDamageIntervals = 1f;
+		private float m_nextDarkDamageTime = 0f;
 
 		//	被伤害逻辑
 		//	这个伤害来自黑暗中的怪物
@@ -86,7 +101,11 @@ namespace Demo4
 		{
 			if (isLife && !hasLight)
 			{
-				hp -= damage * Time.deltaTime;
+				if( Time.time >= m_nextDarkDamageTime )
+				{
+					hp -= darkDamage;
+					m_nextDarkDamageTime = Time.time + darkDamageIntervals;
+				}
 			}
 		}
 
@@ -99,63 +118,18 @@ namespace Demo4
 		/// 电量
 		/// </summary>
 		/// <value>The power.</value>
-		public float power
+		public int power
 		{
 			get
 			{
-				if( powerLight == null )
-				{
-					return 0f;
-				}
-				return powerLight.power;
+				return items.Get( ItemType.Power );
 			}
 			set
 			{
-				if( powerLight == null )
-				{
-					return;
-				}
-				powerLight.power = value;
+				items.Set( ItemType.Power, Mathf.Clamp( value, 0, items.Get( ItemType.PowerMax ) ) );
 			}
 		}
 
-		//	是否处于无限能量模式
-		//	此状态中可以恢复能量
-		public bool isFreePowerMode
-		{
-			get
-			{
-				return items.HasItem (ItemType.RecoverPowerSpeed);
-			}
-		}
-
-		/// <summary>
-		/// 回复能量逻辑
-		/// </summary>
-		void UpdateRecoverPower()
-		{
-			if (isLife && isFreePowerMode)
-			{
-				powerLight.isFreePowerMode = isFreePowerMode;
-			}
-			powerLight.power = items.GetItemCount (ItemType.Power);
-		}
-
-		/// <summary>
-		/// 生命值恢复速度,单位:点数/每秒
-		/// </summary>
-		public float hpRecoverSpeed = 1f;
-
-		/// <summary>
-		/// 生命恢复逻辑
-		/// </summary>
-		private void UpdateRecoverHp()
-		{
-			if (hpRecoverSpeed > 0f&& hasLight)
-			{
-				hp += (hpRecoverSpeed * Time.deltaTime);
-			}
-		}
 
 
 	}
