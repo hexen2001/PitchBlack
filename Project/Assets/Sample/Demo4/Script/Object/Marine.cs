@@ -138,6 +138,7 @@ namespace Demo4
 			{
 				powerLight.isFreePowerMode = isFreePowerMode;
 			}
+			powerLight.power = items.GetItemCount (ItemType.Power);
 		}
 
 		/// <summary>

@@ -27,7 +27,7 @@ namespace Demo4
 		}
 		public bool HasItem(ItemType type)
 		{
-			return null != m_itemList.Find( pair => pair.type == type );
+			return GetItemCount( type ) > 0;
 		}
 		public bool HasItem(params ItemPair[] pairs)
 		{
