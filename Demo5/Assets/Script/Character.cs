@@ -177,6 +177,7 @@ public class Character : TouchBase
 	protected virtual void OnDrawGizmos()
 	{
 		GizmosMotion();
+		GizmosSelfToTarget ();
 	}
 
 	protected virtual void Update()
@@ -184,6 +185,28 @@ public class Character : TouchBase
 		UpdateLife();
 	}
 
+	#endregion
+
+	#region AI
+	public Character target
+	{
+		get{
+			if (vision != null)
+			{
+				return vision.target;
+			}
+			return null;
+		}
+	}
+	private void GizmosSelfToTarget()
+	{
+		var obj = target;
+		if (obj!=null)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawLine (transform.position, obj.transform.position);
+		}
+	}
 	#endregion
 
 	#region Vision

@@ -1,27 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-
-public abstract class VisionBase : TouchBase
-{
-
-
-	public abstract Character target
-	{
-		get;
-	}
-
-
-
-	protected override void UpdateLayer ()
-	{
-		gameObject.layer = CampUtil.FireLayer (camp);
-	}
-
-
-}
-
-public class Vision : VisionBase
+public class VisionRange : Vision
 {
 	public override Character target
 	{
