@@ -19,7 +19,7 @@ public enum Layer : int
 
 public static class CampUtil
 {
-	public static int FireLayer(Camp camp)
+	public static int SelfLayer(Camp camp)
 	{
 		switch( camp )
 		{
@@ -32,7 +32,7 @@ public static class CampUtil
 				return (int)Layer.Force2;
 		}
 	}
-	public static int SelfLayer(Camp camp)
+	public static int FireLayer(Camp camp)
 	{
 		switch( camp )
 		{
