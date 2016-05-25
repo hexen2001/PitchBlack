@@ -37,6 +37,8 @@ namespace Demo4
 				return ( m_lastFireTime + cooldown ) > Time.time;
 			}
 		}
+		public GameObject fireEffectPrefab;
+
 		public Bullet Fire()
 		{
 			if (bulletPrefab != null)
@@ -46,6 +48,12 @@ namespace Demo4
 				tf.parent = Manager.main.bulletLayer;
 				m_lastFireTime = Time.time;
 				bu.damagePoint = damagePoint;
+
+				if (fireEffectPrefab != null)
+				{
+					var fx = fireEffectPrefab.Create (mark);
+					fx.transform.parent = Manager.main.bulletLayer;
+				}
 
 				return bu;
 			}

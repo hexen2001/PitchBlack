@@ -3,13 +3,13 @@ using System.Collections;
 
 namespace Demo4
 {
-	public class BuffEnhance : BuffAdd
+	public class BuffEnhance : BuffInc
 	{
 		void Start()
 		{
 			Add( amount );
 		}
-		void OnDestroy()
+		void OnDisable()
 		{
 			Add( amount.ToInverse() );
 		}

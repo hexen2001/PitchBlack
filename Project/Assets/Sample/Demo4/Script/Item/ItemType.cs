@@ -15,7 +15,7 @@ namespace Demo4
 
 		Light = 20,
 
-		RecoverPowerSpeed = 100,
+		FullPower = 100,
 		BlackDamage,
 
 

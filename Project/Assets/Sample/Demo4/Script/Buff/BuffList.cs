@@ -48,6 +48,16 @@ namespace Demo4
 		}
 
 		/// <summary>
+		/// 是否有某状态
+		/// </summary>
+		/// <returns><c>true</c> if this instance has buff the specified prefab; otherwise, <c>false</c>.</returns>
+		/// <param name="prefab">Prefab.</param>
+		public bool HasBuff(Buff prefab)
+		{
+			return m_buffList.ContainsKey (prefab);
+		}
+
+		/// <summary>
 		/// 所有状态表
 		/// key为prefab
 		/// value为实例

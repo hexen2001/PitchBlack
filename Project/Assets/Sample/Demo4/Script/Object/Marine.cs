@@ -39,8 +39,13 @@ namespace Demo4
 			}
 
 			UpdateMotion();
-			UpdateDarkDamage();
+			UpdateBuff();
 		}
+
+		/// <summary>
+		/// 加载数据
+		/// </summary>
+		/// <param name="settings">Settings.</param>
 		protected override void OnData(GameSettings settings)
 		{
 			base.OnData( settings );
@@ -86,33 +91,50 @@ namespace Demo4
 		/// </summary>
 		private float m_moveSpeed = 0f;
 
-		/// <summary>
-		/// 造成的伤害
-		/// </summary>
-		public int darkDamage = 1;
-
-		public float darkDamageIntervals = 1f;
-		private float m_nextDarkDamageTime = 0f;
-
 		//	被伤害逻辑
 		//	这个伤害来自黑暗中的怪物
 		//	一种逻辑上的直接伤害
-		void UpdateDarkDamage()
+		void UpdateBuff()
 		{
-			if (isLife && !hasLight)
+
+			if (darkDamage.activeSelf == hasLight)
 			{
-				if( Time.time >= m_nextDarkDamageTime )
-				{
-					hp -= darkDamage;
-					m_nextDarkDamageTime = Time.time + darkDamageIntervals;
-				}
+				darkDamage.SetActive (!hasLight);
+				recoverLife.SetActive (hasLight);
+			}
+
+
+			if (recoverLife.activeSelf != hasLight)
+			{
+				recoverLife.SetActive (hasLight);
+			}
+
+
+			powerLight.SetActive (isPower);
+
+			powerLightConsume.SetActive (isPowerConsume);
+		}
+		private bool isPowerConsume
+		{
+			get{
+				return powerLight.activeSelf && items.Get (ItemType.FullPower) == 0;
 			}
 		}
+
+		public bool isPower
+		{
+			get{
+				return items.Get (ItemType.Power) > 0;
+			}
+		}
+		public GameObject darkDamage;
+		public GameObject recoverLife;
 
 		/// <summary>
 		/// 灯
 		/// </summary>
-		public PowerLight powerLight = null;
+		public GameObject powerLight = null;
+		public GameObject powerLightConsume = null;
 
 		/// <summary>
 		/// 电量

@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Demo4
 {
-	public class BuffAdd : Buff
+	public class BuffInc : Buff
 	{
 		public ItemPair amount;
 		protected void Add(ItemPair pair)
@@ -17,7 +17,7 @@ namespace Demo4
 	/// <summary>
 	/// 状态，能量回复
 	/// </summary>
-	public class BuffRecover : BuffAdd
+	public class BuffRecover : BuffInc
 	{
 		public float intervals = 1f;
 		IEnumerator Start()

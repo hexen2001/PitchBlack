@@ -14,6 +14,16 @@ namespace Demo4
 
 		#region 生命相关
 
+		public void AddValue(ItemType type, int value, ItemType maxType)
+		{
+			value += items.Get (type);
+			if (maxType != ItemType.Unknown)
+			{
+				value = Mathf.Clamp (value, 0, items.Get (maxType));
+			}
+			items.Set (type, value);
+		}
+
 
 
 		[SerializeField]
@@ -36,6 +46,10 @@ namespace Demo4
 			}
 		}
 
+		public void Damage (int point)
+		{
+			hp -= point;
+		}
 
 		/// <summary>
 		/// 造成伤害
@@ -44,8 +58,9 @@ namespace Demo4
 		public void Damage(Bullet bullet)
 		{
 			items.AddItem( ItemType.Hp, -bullet.damagePoint );
-			hp -= bullet.damagePoint;
+			Damage ( bullet.damagePoint);
 		}
+
 
 
 		/// <summary>
