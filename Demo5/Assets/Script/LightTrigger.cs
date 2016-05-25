@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LightField : CharacterTrigger
+public class LightTrigger : TouchBase
 {
 	protected override void OnEnter(Character marine)
 	{

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : CharacterTrigger
+public class Bullet : TouchBase
 {
 
 	public int damagePoint = 0;
