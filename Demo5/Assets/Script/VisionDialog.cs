@@ -7,7 +7,7 @@ namespace Assets.Script
 {
 	public class VisionDialog : VisionRangeBase<DialogTrigger>
 	{
-		protected virtual void UpdateLayer()
+		protected override void UpdateLayer()
 		{
 			gameObject.layer = CampUtil.FireLayer( camp );
 		}
