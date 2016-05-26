@@ -3,15 +3,26 @@ using System.Collections;
 
 public class AIFollowAttack : CharacterComponent
 {
-	private void StopMotion ()
+	private void FollowTarget ()
 	{
-		self.nav.Stop ();
-		self.nav.ResetPath ();
+		self.SetMoveDir (moveDir);
 	}
 
-	void FollowTarget ()
+	private Vector3 moveDir
 	{
-		self.nav.SetDestination (self.target.transform.position);
+		get{
+			if (self.target != null)
+			{
+				var dir = self.target.transform.position - transform.position;
+				return dir.normalized;
+			}
+			return Vector3.forward;
+		}
+	}
+
+	void RotateAtTarget ()
+	{
+		transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (moveDir, Vector3.up), 0.2f);
 	}
 
 	protected void Update()
@@ -19,7 +30,9 @@ public class AIFollowAttack : CharacterComponent
 		//	follow
 		if (self.target != null)
 		{
-			if (self.InFireRange (self.target.transform.position))
+			RotateAtTarget ();
+			
+			if (self.CheckFireRange (self.target.transform.position))
 			{
 				if (self.gun.isCanFire)
 				{
@@ -34,7 +47,7 @@ public class AIFollowAttack : CharacterComponent
 		}
 		else
 		{
-			StopMotion ();
+			self.StopMove ();
 		}
 	}
 }

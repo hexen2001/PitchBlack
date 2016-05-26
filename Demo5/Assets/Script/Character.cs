@@ -33,7 +33,8 @@ public class Character : TouchBase
 
 	#region Motion
 	public NavMeshAgent nav;
-	public Vector3 m_motionDir;
+	[SerializeField]
+	private Vector3 m_motionDir;
 	private const float MinMotionDistance = 4f;
 	public void SetMoveDir(Vector3 dir)
 	{
@@ -50,7 +51,7 @@ public class Character : TouchBase
 			return transform.position + m_motionDir * MinMotionDistance;
 		}
 	}
-	protected void StopMove()
+	public void StopMove()
 	{
 		nav.Stop();
 		nav.ResetPath();
