@@ -3,18 +3,20 @@ using System.Collections;
 
 public class LightTrigger : TouchBase
 {
-	protected override void OnEnter(Character marine)
+	protected override void OnTriggerEnter(Collider target)
 	{
-		if( marine is Marine )
+		var marine = target.GetComponent<Marine>();
+		if( marine != null )
 		{
-			( marine as Marine ).lightCount++;
+			marine.lightCount++;
 		}
 	}
-	protected override void OnExit(Character marine)
+	protected override void OnTriggerExit(Collider target)
 	{
-		if( marine is Marine )
+		var marine = target.GetComponent<Marine>();
+		if( marine != null )
 		{
-			( marine as Marine ).lightCount--;
+			marine.lightCount--;
 		}
 	}
 

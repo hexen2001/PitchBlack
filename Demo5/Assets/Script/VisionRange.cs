@@ -1,34 +1,66 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class VisionRange : Vision
+
+public abstract class VisionRangeBase<T> : Vision
+	where T : Component
 {
-	public override Character target
+
+	public override Object first
 	{
 		get
 		{
-			if (targets.Count > 0)
+			if( targets.Count > 0 )
 			{
-				return targets [0];
+				return targets[ 0 ];
 			}
 			return null;
 		}
 	}
 
-	public List<Character> targets = new List<Character> ();
 
-	protected override void OnEnter (Character target)
+	[SerializeField]
+	private List<T> targets = new List<T>();
+
+
+	protected override void OnTriggerEnter(Collider collider)
 	{
-		targets.Add (target);
+		var target = collider.gameObject.GetComponent<T>();
+		if( target != null )
+		{
+			targets.Add( target );
+		}
 	}
 
-	protected override void OnExit (Character target)
+
+	protected override void OnTriggerExit(Collider collider)
 	{
-		targets.Remove (target);
+		var target = collider.gameObject.GetComponent<T>();
+		if( target != null )
+		{
+			targets.Remove( target );
+		}
 	}
 
-	protected void Update ()
+
+	protected virtual void Update()
 	{
-		targets.RemoveAll (obj => obj == null);
+		targets.RemoveAll( obj => obj == null );
 	}
+
+
+	protected void SortByNearToFar()
+	{
+		var selfPosition = Manager.main.ctrlPlayer.transform.position;
+		targets.Sort( (T a, T b) =>
+		{
+			float distanceA = ( a.transform.position - selfPosition ).magnitude;
+			float distanceB = ( b.transform.position - selfPosition ).magnitude;
+			return distanceA < distanceB ? -1 : 1;
+		} );
+	}
+}
+
+public class VisionRange : VisionRangeBase<Character>
+{
 }

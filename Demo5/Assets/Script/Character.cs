@@ -21,13 +21,6 @@ public class Character : TouchBase
 			}
 		}
 	}
-	public int fireLayer
-	{
-		get
-		{
-			return CampUtil.FireLayer( camp );
-		}
-	}
 
 	#endregion
 
@@ -90,8 +83,8 @@ public class Character : TouchBase
 
 		isLife = false;
 		hp = 0;
-		iTween.MoveAdd (gameObject, Vector3.down * 2f, 1f );
-		Object.Destroy (gameObject, corpseHideDelay);
+		iTween.MoveAdd( gameObject, Vector3.down * 2f, 1f );
+		Object.Destroy( gameObject, corpseHideDelay );
 	}
 	private void UpdateLife()
 	{
@@ -133,13 +126,13 @@ public class Character : TouchBase
 
 	public bool CheckFireRange(Vector3 pos)
 	{
-		if (gun != null)
+		if( gun != null )
 		{
-			return (transform.position - pos).magnitude <= gun.fireRange;
+			return ( transform.position - pos ).magnitude <= gun.fireRange;
 		}
 		return false;
 	}
-	 
+
 	public void Fire()
 	{
 		if( !gun.isCooldown )
@@ -147,7 +140,6 @@ public class Character : TouchBase
 			var bullet = gun.Fire();
 			if( bullet != null )
 			{
-				bullet.gameObject.layer = fireLayer;
 				bullet.attacker = this;
 				bullet.camp = camp;
 			}
@@ -194,7 +186,7 @@ public class Character : TouchBase
 	protected virtual void OnDrawGizmos()
 	{
 		GizmosMotion();
-		GizmosSelfToTarget ();
+		GizmosSelfToTarget();
 	}
 
 	protected virtual void Update()
@@ -207,10 +199,11 @@ public class Character : TouchBase
 	#region AI
 	public Character target
 	{
-		get{
-			if (vision != null)
+		get
+		{
+			if( vision != null )
 			{
-				return vision.target;
+				return vision.first as Character;
 			}
 			return null;
 		}
@@ -218,10 +211,10 @@ public class Character : TouchBase
 	private void GizmosSelfToTarget()
 	{
 		var obj = target;
-		if (obj!=null)
+		if( obj != null )
 		{
 			Gizmos.color = Color.red;
-			Gizmos.DrawLine (transform.position, obj.transform.position);
+			Gizmos.DrawLine( transform.position, obj.transform.position );
 		}
 	}
 	#endregion

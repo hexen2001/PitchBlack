@@ -1,52 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AIFollowAttack : CharacterComponent
+public class AIFollowAttack : AIRangeAttack
 {
-	private void FollowTarget ()
-	{
-		self.SetMoveDir (moveDir);
-	}
 
-	private Vector3 moveDir
-	{
-		get{
-			if (self.target != null)
-			{
-				var dir = self.target.transform.position - transform.position;
-				return dir.normalized;
-			}
-			return Vector3.forward;
-		}
-	}
-
-	void RotateAtTarget ()
-	{
-		transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (moveDir, Vector3.up), 0.2f);
-	}
-
-	protected void Update()
+	protected override void Update()
 	{
 		//	follow
-		if (self.target != null)
+		if( self.target != null )
 		{
-			RotateAtTarget ();
-			
-			if (self.CheckFireRange (self.target.transform.position))
+			RotateAtTarget();
+
+			if( self.CheckFireRange( self.target.transform.position ) )
 			{
-				if (self.gun.isCanFire)
+				if( self.gun.isCanFire )
 				{
-					self.Fire ();
+					self.Fire();
 				}
 			}
 			else
 			{
-				FollowTarget ();
+				self.SetMoveDir( targetDir );
 			}
 		}
 		else
 		{
-			self.StopMove ();
+			self.StopMove();
 		}
 	}
 }

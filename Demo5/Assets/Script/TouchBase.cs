@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent( typeof( Rigidbody ) )]
-[RequireComponent( typeof( Collider ) )]
+[RequireComponent( typeof( SphereCollider ) )]
 public abstract class TouchBase : MonoBehaviour
 {
 	#region Camp and Layer
@@ -33,28 +33,24 @@ public abstract class TouchBase : MonoBehaviour
 
 	#endregion
 
-	#region Event
 
-	protected void OnTriggerEnter(Collider collider)
+	#region Unity Event
+
+
+	protected void Reset()
 	{
-		var target = collider.gameObject.GetComponent<Character>();
-		if( target != null )
-		{
-			OnEnter( target );
-		}
+		GetComponent<Rigidbody>().useGravity = false;
+		GetComponent<Collider>().isTrigger = true;
 	}
-	protected void OnTriggerExit(Collider collider)
-	{
-		var target = collider.gameObject.GetComponent<Character>();
-		if( target != null )
-		{
-			OnExit( target );
-		}
-	}
-	protected virtual void OnEnter(Character target)
+
+
+	protected virtual void OnTriggerEnter(Collider collider)
 	{
 	}
-	protected virtual void OnExit(Character target)
+
+
+
+	protected virtual void OnTriggerExit(Collider collider)
 	{
 	}
 
@@ -67,4 +63,5 @@ public abstract class TouchBase : MonoBehaviour
 
 
 	#endregion
+
 }

@@ -19,8 +19,10 @@ public class Single<T> : MonoBehaviour
 }
 public class Manager : Single<Manager>
 {
+	public Game game;
 	public Transform buildingLayer;
 	public Transform bulletLayer;
+	public Marine ctrlPlayer;
 
 }
 

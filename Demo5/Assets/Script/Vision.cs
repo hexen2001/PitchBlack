@@ -6,7 +6,7 @@ public abstract class Vision : TouchBase
 {
 
 
-	public abstract Character target
+	public abstract Object first
 	{
 		get;
 	}
