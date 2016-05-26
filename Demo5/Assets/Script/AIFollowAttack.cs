@@ -36,7 +36,6 @@ public class AIFollowAttack : CharacterComponent
 			{
 				if (self.gun.isCanFire)
 				{
-					Debug.Log ("Fire");
 					self.Fire ();
 				}
 			}

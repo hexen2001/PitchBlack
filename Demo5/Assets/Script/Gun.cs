@@ -6,6 +6,7 @@ public class Gun : MonoBehaviour
 	public Bullet bulletPrefab;
 	public Transform mark = null;
 	public float cooldownTime = 1.5f;
+	public int damagePoint = 5;
 	public bool isCanFire
 	{
 		get
@@ -35,6 +36,7 @@ public class Gun : MonoBehaviour
 				mark != null ? mark : transform );
 
 			var result = go.GetComponent<Bullet>();
+			result.damagePoint = damagePoint;
 
 			StartCooldown ();
 

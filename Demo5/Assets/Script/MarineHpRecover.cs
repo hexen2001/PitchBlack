@@ -24,7 +24,7 @@ public class MarineHpRecover : OngoingEffect
 	}
 	protected override void Update()
 	{
-		if( marine.lightingOrPowerful )
+		if( marine.isLife && marine.lightingOrPowerful )
 		{
 			base.Update();
 		}
