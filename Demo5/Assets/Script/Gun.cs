@@ -7,6 +7,7 @@ public class Gun : MonoBehaviour
 	public Transform mark = null;
 	public float cooldownTime = 1.5f;
 	public int damagePoint = 5;
+	public Layer bulletLayer;
 	public bool isCanFire
 	{
 		get
@@ -37,6 +38,7 @@ public class Gun : MonoBehaviour
 
 			var result = go.GetComponent<Bullet>();
 			result.damagePoint = damagePoint;
+			go.layer = (int)bulletLayer;
 
 			StartCooldown ();
 

@@ -4,25 +4,6 @@ using System.Collections;
 
 public class Character : TouchBase
 {
-	#region camp
-
-	public override Camp camp
-	{
-		get
-		{
-			return base.camp;
-		}
-		set
-		{
-			base.camp = value;
-			if( vision != null )
-			{
-				vision.camp = value;
-			}
-		}
-	}
-
-	#endregion
 
 	#region Motion
 	public NavMeshAgent nav;
@@ -141,7 +122,6 @@ public class Character : TouchBase
 			if( bullet != null )
 			{
 				bullet.attacker = this;
-				bullet.camp = camp;
 			}
 		}
 	}

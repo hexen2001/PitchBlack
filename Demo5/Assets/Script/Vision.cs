@@ -13,10 +13,4 @@ public abstract class Vision : TouchBase
 
 
 
-	protected override void UpdateLayer ()
-	{
-		gameObject.layer = CampUtil.FireLayer (camp);
-	}
-
-
 }

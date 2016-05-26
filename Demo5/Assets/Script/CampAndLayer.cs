@@ -10,10 +10,12 @@ public enum Camp
 
 public enum Layer : int
 {
-	Force1 = 8,
-	Force1Fire = 9,
-	Force2 = 12,
-	Force2Fire = 13,
+	Human = 8,
+	HitMonster = 9,
+	Dialog = 10,
+	HitDialog = 11,
+	Monster = 12,
+	HitHuman = 13,
 }
 
 
@@ -24,12 +26,12 @@ public static class CampUtil
 		switch( camp )
 		{
 			case Camp.Human:
-				return (int)Layer.Force1;
+				return (int)Layer.Human;
 			case Camp.Trigger:
-				return (int)Layer.Force2Fire;
+				return (int)Layer.HitHuman;
 			case Camp.Monster:
 			default:
-				return (int)Layer.Force2;
+				return (int)Layer.Monster;
 		}
 	}
 	public static int FireLayer(Camp camp)
@@ -37,12 +39,12 @@ public static class CampUtil
 		switch( camp )
 		{
 			case Camp.Human:
-				return (int)Layer.Force1Fire;
+				return (int)Layer.HitMonster;
 			case Camp.Trigger:
-				return (int)Layer.Force2Fire;
+				return (int)Layer.HitHuman;
 			case Camp.Monster:
 			default:
-				return (int)Layer.Force2Fire;
+				return (int)Layer.HitHuman;
 		}
 	}
 }

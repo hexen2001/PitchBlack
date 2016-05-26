@@ -13,12 +13,6 @@ public class Bullet : TouchBase
 	public GameObject hitEffect = null;
 
 
-	protected override void UpdateLayer()
-	{
-		gameObject.layer = CampUtil.FireLayer( camp );
-	}
-
-
 	protected override void OnTriggerEnter(Collider target)
 	{
 		var targetCharacter = target.GetComponent<Character>();
