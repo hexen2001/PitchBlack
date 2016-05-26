@@ -22,6 +22,7 @@ public class Bullet : TouchBase
 				hitEffect.Create( Manager.main.bulletLayer, target.transform );
 			}
 
+			Debug.Log ("Bullet Destroy self");
 			Destroy( gameObject );
 		}
 	}

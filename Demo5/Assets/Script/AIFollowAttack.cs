@@ -1,35 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterComponent : MonoBehaviour
-{
-	protected Character self
-	{
-		get{
-			if (null == m_self)
-			{
-				m_self = GetComponent<Character> ();
-			}
-			return m_self;
-		}
-	}
-	private Character m_self = null;
-}
-
 public class AIFollowAttack : CharacterComponent
 {
+	private void StopMotion ()
+	{
+		self.nav.Stop ();
+		self.nav.ResetPath ();
+	}
+
+	void FollowTarget ()
+	{
+		self.nav.SetDestination (self.target.transform.position);
+	}
+
 	protected void Update()
 	{
 		//	follow
-		var target = self.target;
-		if (target != null)
+		if (self.target != null)
 		{
-			self.nav.SetDestination (target.transform.position);
+			if (self.InFireRange (self.target.transform.position))
+			{
+				if (self.gun.isCanFire)
+				{
+					Debug.Log ("Fire");
+					self.Fire ();
+				}
+			}
+			else
+			{
+				FollowTarget ();
+			}
 		}
 		else
 		{
-			self.nav.Stop ();
-			self.nav.ResetPath ();
+			StopMotion ();
 		}
 	}
 }

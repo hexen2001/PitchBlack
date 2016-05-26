@@ -17,9 +17,10 @@ public class Gun : MonoBehaviour
 	{
 		get
 		{
-			return m_endCooldownTime < Time.time;
+			return m_endCooldownTime > Time.time;
 		}
 	}
+	public float fireRange;
 	private float m_endCooldownTime = 0f;
 	private void StartCooldown()
 	{
@@ -34,6 +35,8 @@ public class Gun : MonoBehaviour
 				mark != null ? mark : transform );
 
 			var result = go.GetComponent<Bullet>();
+
+			StartCooldown ();
 
 			return result;
 		}

@@ -28,7 +28,6 @@ public class Character : TouchBase
 			return CampUtil.FireLayer( camp );
 		}
 	}
-	public Vision vision = null;
 
 	#endregion
 
@@ -112,6 +111,8 @@ public class Character : TouchBase
 
 
 	#region Weapon
+
+
 	public Gun gun
 	{
 		get
@@ -123,11 +124,21 @@ public class Character : TouchBase
 			return m_gun;
 		}
 	}
+	[SerializeField]
 	private Gun m_gun = null;
+
+	public bool InFireRange(Vector3 pos)
+	{
+		if (gun != null)
+		{
+			return (transform.position - pos).magnitude <= gun.fireRange;
+		}
+		return false;
+	}
 
 	public void Fire()
 	{
-		if( gun.isCooldown )
+		if( !gun.isCooldown )
 		{
 			var bullet = gun.Fire();
 			if( bullet != null )
@@ -138,6 +149,8 @@ public class Character : TouchBase
 			}
 		}
 	}
+
+
 	#endregion
 
 
@@ -210,6 +223,7 @@ public class Character : TouchBase
 	#endregion
 
 	#region Vision
+	public Vision vision = null;
 	#endregion
 
 }
