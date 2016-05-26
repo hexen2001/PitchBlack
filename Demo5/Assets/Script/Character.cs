@@ -128,7 +128,7 @@ public class Character : TouchBase
 	[SerializeField]
 	private Gun m_gun = null;
 
-	public bool InFireRange(Vector3 pos)
+	public bool CheckFireRange(Vector3 pos)
 	{
 		if (gun != null)
 		{
@@ -136,7 +136,7 @@ public class Character : TouchBase
 		}
 		return false;
 	}
-
+	 
 	public void Fire()
 	{
 		if( !gun.isCooldown )
