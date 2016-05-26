@@ -80,6 +80,7 @@ public class Character : TouchBase
 	}
 	[SerializeField]
 	private bool m_isLife = true;
+	private const float corpseHideDelay = 1f;
 	public void Die()
 	{
 		if( !isLife )
@@ -89,6 +90,8 @@ public class Character : TouchBase
 
 		isLife = false;
 		hp = 0;
+		iTween.MoveAdd (gameObject, Vector3.down * 2f, 1f );
+		Object.Destroy (gameObject, corpseHideDelay);
 	}
 	private void UpdateLife()
 	{
