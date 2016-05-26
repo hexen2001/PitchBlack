@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Script
 {
-	public class VisionDialog : VisionRangeBase<DialogTrigger>
+	public class VisionDialog : VisionRangeBase
 	{
 	}
 }

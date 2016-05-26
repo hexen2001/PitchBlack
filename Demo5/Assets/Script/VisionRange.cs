@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 
 
-public abstract class VisionRangeBase<T> : Vision
-	where T : Component
+public abstract class VisionRangeBase : Vision
 {
 
-	public override Object first
+	public override GameObject first
 	{
 		get
 		{
@@ -20,26 +19,18 @@ public abstract class VisionRangeBase<T> : Vision
 
 
 	[SerializeField]
-	private List<T> targets = new List<T>();
+	private List<GameObject> targets = new List<GameObject>();
 
 
 	protected override void OnTriggerEnter(Collider collider)
 	{
-		var target = collider.gameObject.GetComponent<T>();
-		if( target != null )
-		{
-			targets.Add( target );
-		}
+		targets.Add( collider.gameObject );
 	}
 
 
 	protected override void OnTriggerExit(Collider collider)
 	{
-		var target = collider.gameObject.GetComponent<T>();
-		if( target != null )
-		{
-			targets.Remove( target );
-		}
+		targets.Remove( collider.gameObject );
 	}
 
 
@@ -52,7 +43,7 @@ public abstract class VisionRangeBase<T> : Vision
 	protected void SortByNearToFar()
 	{
 		var selfPosition = Manager.main.ctrlPlayer.transform.position;
-		targets.Sort( (T a, T b) =>
+		targets.Sort( (GameObject a, GameObject b) =>
 		{
 			float distanceA = ( a.transform.position - selfPosition ).magnitude;
 			float distanceB = ( b.transform.position - selfPosition ).magnitude;
@@ -61,6 +52,6 @@ public abstract class VisionRangeBase<T> : Vision
 	}
 }
 
-public class VisionRange : VisionRangeBase<Character>
+public class VisionRange : VisionRangeBase
 {
 }

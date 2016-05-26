@@ -6,7 +6,7 @@ public abstract class Vision : TouchBase
 {
 
 
-	public abstract Object first
+	public abstract GameObject first
 	{
 		get;
 	}

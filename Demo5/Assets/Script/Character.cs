@@ -183,7 +183,11 @@ public class Character : TouchBase
 		{
 			if( vision != null )
 			{
-				return vision.first as Character;
+				var first = vision.first;
+				if (first != null)
+				{
+					return first.GetComponent<Character>();
+				}
 			}
 			return null;
 		}
