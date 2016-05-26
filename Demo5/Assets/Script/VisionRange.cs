@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 
 
-public abstract class VisionRangeBase : Vision
+public class VisionRange : Vision
 {
 
+	public enum SortMode
+	{
+		None,
+		NearToFar,
+	}
+	public SortMode sortMode = SortMode.NearToFar;
 	public override GameObject first
 	{
 		get
@@ -37,12 +43,16 @@ public abstract class VisionRangeBase : Vision
 	protected virtual void Update()
 	{
 		targets.RemoveAll( obj => obj == null );
+		if (sortMode == SortMode.NearToFar)
+		{
+			SortByNearToFar ();
+		}
 	}
 
 
 	protected void SortByNearToFar()
 	{
-		var selfPosition = Manager.main.ctrlPlayer.transform.position;
+		var selfPosition = transform.position;
 		targets.Sort( (GameObject a, GameObject b) =>
 		{
 			float distanceA = ( a.transform.position - selfPosition ).magnitude;
@@ -52,6 +62,3 @@ public abstract class VisionRangeBase : Vision
 	}
 }
 
-public class VisionRange : VisionRangeBase
-{
-}
