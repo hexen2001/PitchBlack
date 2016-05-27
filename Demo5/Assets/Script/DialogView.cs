@@ -5,17 +5,39 @@ public class DialogView : MonoBehaviour
 {
 	public void OnGUI()
 	{
-		GUILayout.BeginVertical (GUI.skin.box);
+		var dialog = Manager.main.ctrlPlayer.vision.first.GetComponent<Dialog>();
 
-		foreach( GameObject obj in Manager.main.ctrlPlayer.vision.targets )
+		if (dialog != null)
 		{
-			var dlg = obj.GetComponent<Dialog> ();
-			if (dlg != null)
+			GUILayout.BeginVertical (GUI.skin.box);
+
+//			foreach (GameObject obj in dialogs)
 			{
-				dlg.DrawView ();
+//				var dlg = obj.GetComponent<Dialog> ();
+				if (dialog != null)
+				{
+					GUILayout.BeginHorizontal ();
+					dialog.DrawView ();
+					GUILayout.EndHorizontal ();
+				}
+			}
+
+			GUILayout.EndVertical ();
+		}
+	}
+	void OnDrawGizmos()
+	{
+		if (Manager.main.ctrlPlayer != null)
+		{
+			if (Manager.main.ctrlPlayer.vision.first != null)
+			{
+				var dialog = Manager.main.ctrlPlayer.vision.first.GetComponent<Dialog> ();
+				if (dialog != null)
+				{
+					Gizmos.color = Color.cyan;
+					Gizmos.DrawLine (Manager.main.ctrlPlayer.transform.position, dialog.transform.position);
+				}
 			}
 		}
-
-		GUILayout.EndVertical ();
 	}
 }

@@ -70,7 +70,13 @@ public class Mine : Dialog
 	}
 	public override void DrawView ()
 	{
+		GUILayout.Label ( "Mine("+name+")" );
+
 		if (GUILayout.Button ("Build"))
+		{
+			Build ();
+		}
+		if (GUILayout.Button ("Pass"))
 		{
 			Build ();
 		}
