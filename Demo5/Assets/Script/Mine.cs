@@ -3,9 +3,11 @@ using System.Collections;
 
 public class Mine : Dialog
 {
-	public Refinery refineryPrefab = null;
-	public float totalTime = 1f;
-	[ContextMenu("Build")]
+	public GameObject prefab = null;
+	public float totalTime = 3f;
+	public KeyCode buildHotKey = KeyCode.Space;
+
+	[ContextMenu( "Build" )]
 	public bool Build()
 	{
 		if( isCanBuild )
@@ -18,18 +20,22 @@ public class Mine : Dialog
 			return false;
 		}
 	}
+	public void Stop()
+	{
+		m_buildingTime = -1;
+	}
 	private bool isCanBuild
 	{
 		get
 		{
-			return refineryPrefab != null && m_refineryInstance == null && m_buildingTime <= 0f;
+			return prefab != null && m_instance == null && m_buildingTime <= 0f;
 		}
 	}
 	private bool isBuilding
 	{
 		get
 		{
-			return m_refineryInstance == null && m_buildingTime > 0f;
+			return m_instance == null && m_buildingTime > 0f;
 		}
 	}
 	private float buildProcess
@@ -41,9 +47,9 @@ public class Mine : Dialog
 	}
 	private void Create()
 	{
-		if( refineryPrefab != null )
+		if( prefab != null )
 		{
-			m_refineryInstance = refineryPrefab.gameObject.Create( transform ).GetComponent<Refinery>();
+			m_instance = prefab.Create( transform );
 		}
 	}
 	protected void Update()
@@ -58,29 +64,6 @@ public class Mine : Dialog
 			}
 		}
 	}
-	public override void DrawView ()
-	{
-		GUILayout.Label ( "Mine("+name+")" );
-
-		if (!isBuilding)
-		{
-			if (GUILayout.Button ("Build (Space)")
-				|| Input.GetKeyDown (KeyCode.Space)
-			)
-			{
-				Build ();
-			}
-		}
-		else
-		{
-			if (GUILayout.Button ("Cancel (Escape)")
-				|| Input.GetKeyDown(KeyCode.Escape)
-			)
-			{
-				m_buildingTime = -1;
-			}
-		}
-	}
 	protected void OnGUI()
 	{
 		if( isBuilding )
@@ -88,13 +71,34 @@ public class Mine : Dialog
 			TitleUtil.textColor = Color.blue;
 			TitleUtil.position = transform.position;
 			TitleUtil.offset = TitleUtil.Line1;
-			guiRect = TitleUtil.rect;
-			TitleUtil.DrawLabel( ((int)(buildProcess*100))+"%" );
+			TitleUtil.DrawLabel( ( (int)( buildProcess * 100 ) ) + "%" );
 		}
 	}
-	private Rect guiRect;
+	public override void DrawView()
+	{
+		GUILayout.Label( "Mine(" + name + ")" );
+
+		if( isCanBuild )
+		{
+			if( GUILayout.Button( "Build (" + buildHotKey.ToString() + ")" )
+				|| Input.GetKeyDown( buildHotKey )
+			)
+			{
+				Build();
+			}
+		}
+		else if( isBuilding )
+		{
+			if( GUILayout.Button( "Cancel (Escape)" )
+				|| Input.GetKeyDown( KeyCode.Escape )
+			)
+			{
+				Stop();
+			}
+		}
+	}
 
 	[SerializeField]
-	private Refinery m_refineryInstance = null;
+	private GameObject m_instance = null;
 	private float m_buildingTime = -1f;
 }
