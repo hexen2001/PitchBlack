@@ -13,4 +13,11 @@ public abstract class Vision : TouchBase
 
 
 
+	public abstract List<GameObject> targets
+	{
+		get;
+	}
+
+
+
 }

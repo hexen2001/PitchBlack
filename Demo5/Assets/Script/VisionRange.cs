@@ -11,38 +11,51 @@ public class VisionRange : Vision
 		NearToFar,
 	}
 	public SortMode sortMode = SortMode.NearToFar;
+
+
 	public override GameObject first
 	{
 		get
 		{
-			if( targets.Count > 0 )
+			if( m_targets.Count > 0 )
 			{
-				return targets[ 0 ];
+				return m_targets[ 0 ];
 			}
 			return null;
 		}
 	}
 
 
+
+	public override List<GameObject> targets
+	{
+		get
+		{
+			return m_targets;
+		}
+	}
+
+
+
 	[SerializeField]
-	private List<GameObject> targets = new List<GameObject>();
+	private List<GameObject> m_targets = new List<GameObject>();
 
 
 	protected override void OnTriggerEnter(Collider collider)
 	{
-		targets.Add( collider.gameObject );
+		m_targets.Add( collider.gameObject );
 	}
 
 
 	protected override void OnTriggerExit(Collider collider)
 	{
-		targets.Remove( collider.gameObject );
+		m_targets.Remove( collider.gameObject );
 	}
 
 
 	protected virtual void Update()
 	{
-		targets.RemoveAll( obj => obj == null );
+		m_targets.RemoveAll( obj => obj == null );
 		if (sortMode == SortMode.NearToFar)
 		{
 			SortByNearToFar ();
@@ -53,7 +66,7 @@ public class VisionRange : Vision
 	protected void SortByNearToFar()
 	{
 		var selfPosition = transform.position;
-		targets.Sort( (GameObject a, GameObject b) =>
+		m_targets.Sort( (GameObject a, GameObject b) =>
 		{
 			float distanceA = ( a.transform.position - selfPosition ).magnitude;
 			float distanceB = ( b.transform.position - selfPosition ).magnitude;

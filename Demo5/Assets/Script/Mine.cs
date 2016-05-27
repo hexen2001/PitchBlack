@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Mine : TouchBase
+public class Mine : Dialog
 {
 	public Refinery refineryPrefab = null;
 	public float totalTime = 1f;
@@ -66,6 +66,13 @@ public class Mine : TouchBase
 			{
 				Create();
 			}
+		}
+	}
+	public override void DrawView ()
+	{
+		if (GUILayout.Button ("Build"))
+		{
+			Build ();
 		}
 	}
 	[SerializeField]
