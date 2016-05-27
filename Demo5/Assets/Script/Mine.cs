@@ -46,15 +46,6 @@ public class Mine : Dialog
 			m_refineryInstance = refineryPrefab.gameObject.Create( transform ).GetComponent<Refinery>();
 		}
 	}
-	protected void OnGUI()
-	{
-		if( isBuilding )
-		{
-			TitleUtil.position = transform.position;
-			TitleUtil.offset = TitleUtil.Line1;
-			TitleUtil.DrawLabel( "" );
-		}
-	}
 	protected void Update()
 	{
 		if( isBuilding )
@@ -90,6 +81,19 @@ public class Mine : Dialog
 			}
 		}
 	}
+	protected void OnGUI()
+	{
+		if( isBuilding )
+		{
+			TitleUtil.textColor = Color.blue;
+			TitleUtil.position = transform.position;
+			TitleUtil.offset = TitleUtil.Line1;
+			guiRect = TitleUtil.rect;
+			TitleUtil.DrawLabel( ((int)(buildProcess*100))+"%" );
+		}
+	}
+	private Rect guiRect;
+
 	[SerializeField]
 	private Refinery m_refineryInstance = null;
 	private float m_buildingTime = -1f;

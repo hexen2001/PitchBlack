@@ -40,6 +40,7 @@ public class DialogView : MonoBehaviour
 		{
 			Gizmos.color = Color.cyan;
 			Gizmos.DrawLine (Manager.main.ctrlPlayer.transform.position, dialog.transform.position);
+			Gizmos.DrawWireSphere (dialog.transform.position, 2f);
 		}
 	}
 }
