@@ -61,7 +61,6 @@ public class Mine : Dialog
 		{
 			m_buildingTime -= Time.deltaTime;
 
-			Debug.Log( ">" + ((int)( 100* buildProcess)).ToString() );
 			if( !isBuilding )
 			{
 				Create();
@@ -72,13 +71,23 @@ public class Mine : Dialog
 	{
 		GUILayout.Label ( "Mine("+name+")" );
 
-		if (GUILayout.Button ("Build"))
+		if (!isBuilding)
 		{
-			Build ();
+			if (GUILayout.Button ("Build (Space)")
+				|| Input.GetKeyDown (KeyCode.Space)
+			)
+			{
+				Build ();
+			}
 		}
-		if (GUILayout.Button ("Pass"))
+		else
 		{
-			Build ();
+			if (GUILayout.Button ("Cancel (Escape)")
+				|| Input.GetKeyDown(KeyCode.Escape)
+			)
+			{
+				m_buildingTime = -1;
+			}
 		}
 	}
 	[SerializeField]
