@@ -4,28 +4,28 @@ using System.Collections;
 public class AIFollowAttack : AIRangeAttack
 {
 
-	protected override void Update()
-	{
+	protected override void Update ()
+	{		
 		//	follow
-		if( self.target != null )
+		if (self.target != null)
 		{
-			RotateAtTarget();
+			RotateAtTarget ();
 
-			if( self.CheckFireRange( self.target.transform.position ) )
+			if (self.CheckFireRange (self.target.transform.position))
 			{
-				if( self.gun.isCanFire )
+				if (self.gun.isCanFire)
 				{
-					self.Fire();
+					self.Fire ();
 				}
 			}
 			else
 			{
-				self.SetMoveDir( targetDir );
+				self.SetMoveDir (targetDir);
 			}
 		}
 		else
 		{
-			self.StopMove();
+			self.StopMove ();
 		}
 	}
 }

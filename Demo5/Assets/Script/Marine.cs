@@ -40,14 +40,6 @@ public class Marine : Character
 	#endregion
 
 
-	#region Lights
-	public bool lighting
-	{
-		get
-		{
-			return lightCount > 0;
-		}
-	}
 	public bool lightingOrPowerful
 	{
 		get
@@ -55,20 +47,6 @@ public class Marine : Character
 			return powerful || lightCount > 0;
 		}
 	}
-	public int lightCount
-	{
-		get
-		{
-			return m_lightCount;
-		}
-		set
-		{
-			m_lightCount = value;
-		}
-	}
-	[SerializeField]
-	private int m_lightCount = 0;
-	#endregion
 
 
 	#region Input

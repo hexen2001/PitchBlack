@@ -5,18 +5,18 @@ public class LightTrigger : TouchBase
 {
 	protected override void OnTriggerEnter(Collider target)
 	{
-		var marine = target.GetComponent<Marine>();
-		if( marine != null )
+		var obj = target.GetComponent<Character>();
+		if( obj != null )
 		{
-			marine.lightCount++;
+			obj.AddLight (gameObject);
 		}
 	}
 	protected override void OnTriggerExit(Collider target)
 	{
-		var marine = target.GetComponent<Marine>();
-		if( marine != null )
+		var obj = target.GetComponent<Character>();
+		if( obj != null )
 		{
-			marine.lightCount--;
+			obj.RemoveLight (gameObject);
 		}
 	}
 

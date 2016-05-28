@@ -38,7 +38,7 @@ public class VisionRange : Vision
 
 
 	[SerializeField]
-	private List<GameObject> m_targets = new List<GameObject>();
+	protected List<GameObject> m_targets = new List<GameObject>();
 
 
 	protected override void OnTriggerEnter(Collider collider)

@@ -38,6 +38,41 @@ public class Character : TouchBase
 	#endregion
 
 
+
+	#region Lights
+	public bool lighting
+	{
+		get
+		{
+			return lightCount > 0;
+		}
+	}
+	public int lightCount
+	{
+		get
+		{
+			return m_lightCount;
+		}
+		private set
+		{
+			m_lightCount = value;
+		}
+	}
+	public virtual void AddLight(GameObject go)
+	{
+		lightCount++;
+	}
+	public virtual void RemoveLight(GameObject go)
+	{
+		lightCount--;
+	}
+	[SerializeField]
+	private int m_lightCount = 0;
+	#endregion
+
+
+
+
 	#region Life
 	public int hp = 100;
 	public int hpMax = 100;
