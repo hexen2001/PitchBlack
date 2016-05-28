@@ -23,6 +23,6 @@ public class Manager : Single<Manager>
 	public Transform buildingLayer;
 	public Transform bulletLayer;
 	public Marine ctrlPlayer;
-
+	public StateMachine uiMngr;
 }
 

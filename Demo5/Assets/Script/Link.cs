@@ -8,6 +8,7 @@ public class Link : MonoBehaviour
 	{
 		Manual,
 		LoadOnAwake,
+		EnableToDisable,
 	}
 
 	public Mode mode = Mode.LoadOnAwake;
@@ -88,6 +89,28 @@ public class Link : MonoBehaviour
 		else
 		{
 			Unload ();
+		}
+	}
+
+	protected void OnEnable()
+	{
+		if( mode == Mode.EnableToDisable )
+		{
+			if( m_ins == null )
+			{
+				Load();
+			}
+		}
+	}
+	protected void OnDisable()
+	{
+		if( mode == Mode.EnableToDisable )
+		{
+			if( m_ins != null )
+			{
+				m_ins.Destroy();
+				m_ins = null;
+			}
 		}
 	}
 }
