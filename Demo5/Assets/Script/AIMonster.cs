@@ -32,10 +32,14 @@ public class AIMonster : AIFollowAttack
 	public float chaosDelay = 0.5f;
 	private float m_changeTime = 0f;
 
-
+	private float m_resumeTime = 0f;
 	protected override void Update ()
 	{
 		chaos = self.lighting;
+		if (self.lighting)
+		{
+			m_resumeTime = Time.time + chaosDelay;
+		}
 		
 		if (chaos && self is Monster)
 		{
