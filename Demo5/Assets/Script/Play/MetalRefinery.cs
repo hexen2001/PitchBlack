@@ -7,11 +7,11 @@ public class MetalRefinery : Refinery
 	{
 		get
 		{
-			return Manager.main.game.metal;
+			return Manager.main.score.metal;
 		}
 		set
 		{
-			Manager.main.game.metal = value;
+			Manager.main.score.metal = value;
 		}
 	}
 	protected override int ValueMax

@@ -8,7 +8,8 @@ public class Manager : Single<Manager>
 		Object.DontDestroyOnLoad (gameObject);
 	}
 
-	public Game game;
+	public Score score;
+	public StateMachine gameState;
 	public Transform buildingLayer;
 	public Transform bulletLayer;
 	public Marine ctrlPlayer
@@ -22,7 +23,6 @@ public class Manager : Single<Manager>
 		}
 	}
 	private Marine m_ctrlPalyer = null;
-	public StateMachine uiMngr;
 
 	public void LoadScene (string sceneName)
 	{

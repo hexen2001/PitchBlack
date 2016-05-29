@@ -12,6 +12,7 @@ public class CmdLoadScene : Cmd
 		if (SceneManager.GetActiveScene ().name != sceneName)
 		{
 			SceneManager.LoadScene (sceneName);
+			SceneManager.SetActiveScene( SceneManager.GetSceneByName (sceneName) );
 		}
 	}
 }

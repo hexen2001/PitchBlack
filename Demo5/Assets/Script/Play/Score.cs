@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Game : MonoBehaviour
+public class Score : MonoBehaviour
 {
-	public StateMachine state;
 	public int power = 0;
 	public int metal = 0;
 	bool ConsumeResource(int inPower, int inMetal)

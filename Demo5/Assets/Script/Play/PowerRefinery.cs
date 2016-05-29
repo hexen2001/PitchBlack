@@ -10,11 +10,11 @@ public class PowerRefinery : Refinery
 	{
 		get
 		{
-			return Manager.main.game.power;
+			return Manager.main.score.power;
 		}
 		set
 		{
-			Manager.main.game.power = value;
+			Manager.main.score.power = value;
 		}
 	}
 	protected override int ValueMax
