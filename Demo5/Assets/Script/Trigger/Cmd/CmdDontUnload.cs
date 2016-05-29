@@ -4,11 +4,11 @@ using System.Collections;
 public class CmdDontUnload : Cmd
 {
 
-	public GameObject[] targets;
+	public GameObject target;
 
 	protected override void OnDo ()
 	{
-		foreach (var target in targets)
+		if( target !=null)
 		{
 			Object.DontDestroyOnLoad (target);
 		}
