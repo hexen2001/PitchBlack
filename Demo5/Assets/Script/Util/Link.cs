@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class Link : MonoBehaviour
 {
 	public enum Mode
@@ -58,19 +59,21 @@ public class Link : MonoBehaviour
 		}
 	}
 
-	[ContextMenu ("Load")]
+	[ContextMenu ("Open")]
 	public void Load ()
 	{
 		if (m_ins == null)
 		{
 			if (prefab != null)
 			{
-				m_ins = prefab.Create (transform);
+				{
+					m_ins = prefab.Create (transform);
+				}
 			}
 		}
 	}
 
-	[ContextMenu ("Unload")]
+	[ContextMenu ("Close")]
 	public void Unload ()
 	{
 		if (m_ins != null)
@@ -79,6 +82,22 @@ public class Link : MonoBehaviour
 			m_ins = null;
 		}
 	}
+
+	#if UNITY_EDITOR
+	[ContextMenu ("Save and close")]
+	public void SaveAndClose ()
+	{
+		if (m_ins != null)
+		{
+			if (prefab != null)
+			{
+				PrefabUtility.ReplacePrefab (m_ins, prefab);
+			}
+			m_ins.Destroy ();
+			m_ins = null;
+		}
+	}
+	#endif
 
 	public void Switch ()
 	{

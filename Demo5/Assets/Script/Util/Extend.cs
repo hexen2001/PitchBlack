@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public static class ExtendGameObject
 {
@@ -7,9 +10,33 @@ public static class ExtendGameObject
 
 	public static GameObject Create(this GameObject prefab, Transform parent)
 	{
-		var go = Object.Instantiate( prefab ) as GameObject;
+		GameObject go = null;
+
+		#if UNITY_EDITOR
+		if (!Application.isPlaying)
+		{
+			go = PrefabUtility.InstantiatePrefab (prefab) as GameObject;
+		}
+		else
+		#endif
+		{
+			go = Object.Instantiate (prefab) as GameObject;
+		}
+
+
 		var tf = go.transform;
-		tf.parent = parent;
+		if (tf is RectTransform )
+		{
+			if (parent is RectTransform)
+			{
+				(tf as RectTransform).parent = parent;
+			}
+		}
+		else
+		{
+			tf.parent = parent;
+		}
+
 		tf.name = prefab.name;
 
 		var ptf = prefab.transform;
