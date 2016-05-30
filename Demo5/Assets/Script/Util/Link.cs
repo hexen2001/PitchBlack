@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -32,7 +33,8 @@ public class Link : MonoBehaviour
 		{
 			return m_ins != null;
 		}
-		set{
+		set
+		{
 			if (isLoaded != value)
 			{
 				if (value)
@@ -111,23 +113,24 @@ public class Link : MonoBehaviour
 		}
 	}
 
-	protected void OnEnable()
+	protected void OnEnable ()
 	{
-		if( mode == Mode.EnableToDisable )
+		if (mode == Mode.EnableToDisable)
 		{
-			if( m_ins == null )
+			if (m_ins == null)
 			{
-				Load();
+				Load ();
 			}
 		}
 	}
-	protected void OnDisable()
+
+	protected void OnDisable ()
 	{
-		if( mode == Mode.EnableToDisable )
+		if (mode == Mode.EnableToDisable)
 		{
-			if( m_ins != null )
+			if (m_ins != null)
 			{
-				m_ins.Destroy();
+				m_ins.Destroy ();
 				m_ins = null;
 			}
 		}

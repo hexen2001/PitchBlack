@@ -25,6 +25,7 @@ public static class ExtendGameObject
 
 
 		var tf = go.transform;
+		/*
 		if (tf is RectTransform )
 		{
 			if (parent is RectTransform)
@@ -33,6 +34,7 @@ public static class ExtendGameObject
 			}
 		}
 		else
+		*/
 		{
 			tf.parent = parent;
 		}
