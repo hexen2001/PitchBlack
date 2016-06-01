@@ -4,31 +4,61 @@ using System.Collections;
 public class DialogView : MonoBehaviour
 {
 	public Dialog current;
-	public void OnGUI()
+
+	public void OnGUI ()
 	{
 		var dialog = current;
-		if( dialog!=null )
+		if (dialog != null)
 		{
-			GUILayout.BeginVertical( GUI.skin.box );
+			GUILayout.BeginVertical (GUI.skin.box);
 
-			if( dialog != null )
+			if (dialog != null)
 			{
-				GUILayout.BeginHorizontal();
-				dialog.DrawView();
-				GUILayout.EndHorizontal();
+				GUILayout.BeginHorizontal ();
+				dialog.DrawView ();
+				GUILayout.EndHorizontal ();
 			}
 
-			GUILayout.EndVertical();
+			GUILayout.EndVertical ();
 		}
 	}
-	protected void Update()
+
+	protected void Update ()
 	{
 		if (Input.GetMouseButtonDown (0))
 		{
-			CheckPick();
+			var target = CheckPick ();
+			if (target != null)
+			{
+				var dlg = target.gameObject.GetComponent<Dialog> ();
+				if (current != null)
+				{
+					if (dlg == null)
+					{
+						current = null;
+					}
+					else
+					{
+						current = dlg;
+					}
+				}
+				else
+				{
+					if (dlg != null)
+					{
+						current = dlg;
+					}
+					else
+					{
+						Debug.Log ("move");
+					}
+				}
+
+			}
 		}
 	}
-	void CheckPick()
+
+	private Collider CheckPick ()
 	{
 		var screenPos = Input.mousePosition;
 
@@ -40,15 +70,13 @@ public class DialogView : MonoBehaviour
 
 
 		int hitFlag = 1 << (int)Layer.Dialog
-			| 1 << (int)Layer.Terrain;
+		              | 1 << (int)Layer.Terrain;
 
 
-		if (Physics.Raycast (ray, out hit,1000,hitFlag))
+		if (Physics.Raycast (ray, out hit, 1000, hitFlag))
 		{
-			if (hit.collider != null)
-			{
-				current = hit.collider.gameObject.GetComponent<Dialog> ();
-			}
+			return hit.collider;
 		}
+		return null;
 	}
 }
