@@ -3,49 +3,52 @@ using System.Collections;
 
 public class DialogView : MonoBehaviour
 {
+	public Dialog current;
 	public void OnGUI()
 	{
-		var dialogs = currentDialogs;
-		if( dialogs != null )
+		var dialog = current;
+		if( dialog!=null )
 		{
-			foreach( var dialog in dialogs )
+			GUILayout.BeginVertical( GUI.skin.box );
+
+			if( dialog != null )
 			{
-				GUILayout.BeginVertical( GUI.skin.box );
-
-				if( dialog != null )
-				{
-					GUILayout.BeginHorizontal();
-					dialog.DrawView();
-					GUILayout.EndHorizontal();
-				}
-
-				GUILayout.EndVertical();
+				GUILayout.BeginHorizontal();
+				dialog.DrawView();
+				GUILayout.EndHorizontal();
 			}
+
+			GUILayout.EndVertical();
 		}
 	}
-	private Dialog[] currentDialogs
+	protected void Update()
 	{
-		get
+		if (Input.GetMouseButtonDown (0))
 		{
-			var player = Manager.main.ctrlPlayer;
-			if( player != null && player.vision != null && player.vision.first != null )
-			{
-				var dialogs = player.vision.first.GetComponents<Dialog>();
-				return dialogs;
-			}
-			return null;
+			CheckPick();
 		}
 	}
-
-	void OnDrawGizmos()
+	void CheckPick()
 	{
-		var dialogs = currentDialogs;
-		if( dialogs != null && dialogs.Length > 0 )
+		var screenPos = Input.mousePosition;
+
+
+		var ray = Camera.main.ScreenPointToRay (screenPos);
+
+
+		RaycastHit hit;
+
+
+		int hitFlag = 1 << (int)Layer.Dialog
+			| 1 << (int)Layer.Terrain;
+
+
+		if (Physics.Raycast (ray, out hit,1000,hitFlag))
 		{
-			var dialog = currentDialogs[ 0 ];
-			Gizmos.color = Color.cyan;
-			Gizmos.DrawLine( Manager.main.ctrlPlayer.transform.position, dialog.transform.position );
-			Gizmos.DrawWireSphere( dialog.transform.position, 2f );
+			if (hit.collider != null)
+			{
+				current = hit.collider.gameObject.GetComponent<Dialog> ();
+			}
 		}
 	}
 }

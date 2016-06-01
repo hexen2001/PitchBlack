@@ -7,4 +7,5 @@ public enum Layer : int
 	HitDialog = 11,
 	Monster = 12,
 	HitHuman = 13,
+	Terrain = 15,
 }
