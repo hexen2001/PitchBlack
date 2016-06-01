@@ -74,7 +74,7 @@ public class Mine : Dialog
 			TitleUtil.DrawLabel( ( (int)( buildProcess * 100 ) ) + "%" );
 		}
 	}
-	public override void DrawView()
+	public override void Draw()
 	{
 		if (m_instance == null)
 		{

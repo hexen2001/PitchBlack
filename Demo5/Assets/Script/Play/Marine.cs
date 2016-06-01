@@ -71,7 +71,7 @@ public class Marine : Character
 	}
 	protected override void Update()
 	{
-		UpdateInput();
+		//UpdateInput();
 		UpdatePowerLight();
 	}
 }
